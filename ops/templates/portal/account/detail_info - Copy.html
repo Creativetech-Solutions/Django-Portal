@@ -1,0 +1,380 @@
+{% load define_action %}
+<div class="modal cl-edit-modal" tabindex="-1" role="dialog" aria-labelledby="appmodal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content row">
+        <div class="modal-header text-center">
+            <strong class="modal-title" id="exampleModalLabel">Edit Customer</strong>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body row col-xs-12">
+			<form action="{{request.META.HTTP_NAME }}/client/editClient" >
+				<div class="col-xs-12 col-sm-12 col-md-8">
+			        <div class="form-group col-xs-12 col-sm-6 col-md-3">
+			            <label class="col-xs-12 col-sm-12 col-md-3">ID:</label>
+			            <div class="col-xs-12 col-sm-12 col-md-9">
+			                <input type="text" class="form-control" readonly="readonly" placeholder="" value="{{data.data.clients.client_id}}">
+			                <input type="hidden" name="client_id" value="{{data.data.clients.client_id}}"  />
+			            </div>
+			        </div>
+			        <div class="form-group col-xs-12 col-sm-6 col-md-3">
+			            <label class="col-xs-12 col-sm-12 col-md-3">Pin:</label>
+			            <div class="col-xs-12 col-sm-12 col-md-9">
+			                <input type="text" class="form-control" placeholder="" value="{{data.data.clients.client_pin|noneCheck}}" name="client_pin">
+			            </div>
+			        </div>
+			        <div class="form-group col-xs-12 col-sm-6 col-md-6">
+			            <label class="col-xs-12 col-sm-12 col-md-3">UUID:</label>
+			            <div class="col-xs-12 col-sm-12 col-md-9">
+			                <input type="text" class="form-control" placeholder="" value="{{data.data.clients.security_answer|noneCheck}}" name="security_answer">
+			            </div>
+			        </div>
+			    	<div class="col-xs-12 col-sm-12 col-md-6">
+
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Customer:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" placeholder="" value="{{data.data.clients.client_name|noneCheck}}" name="client_name">
+				            </div>
+				        </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Trading As:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" placeholder="" value="{{data.data.clients.trading_as|noneCheck}}" name="trading_as">
+				            </div>
+				        </div>
+
+						<div class="col-xs-12 text-center"><h5><strong>Postal Address</strong></h5> </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Address 1:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control form-group" value="{{data.data.clients.postal_address_1|noneCheck}}" placeholder="" name="postal_address_1">
+				            </div>
+				            <label class="col-xs-12 col-sm-12 col-md-4">Address 2:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control form-group" value="{{data.data.clients.postal_address_2|noneCheck}}" placeholder="" name="postal_address_2">
+				            </div>
+				            <label class="col-xs-12 col-sm-12 col-md-4">Address 3:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control form-group" value="{{data.data.clients.postal_address_3|noneCheck}}" placeholder="" name="postal_address_3">
+				            </div>
+				        </div>
+						<div class="col-xs-12 text-center"><h5><strong>Physical Address</strong></h5> </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Address 1:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control form-group" value="{{data.data.clients.physical_address_1|noneCheck}}" placeholder="" name="physical_address_1">
+				            </div>
+				            <label class="col-xs-12 col-sm-12 col-md-4">Address 2:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control form-group" value="{{data.data.clients.physical_address_2|noneCheck}}" placeholder="" name="physical_address_2">
+				            </div>
+				            <label class="col-xs-12 col-sm-12 col-md-4">Address 3:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control form-group" value="{{data.data.clients.area|noneCheck}}" placeholder="" name="area">
+				            </div>
+				        </div>
+			        </div>
+			    	<div class="col-xs-12 col-sm-12 col-md-6">
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Default Phone:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" placeholder="" value="{{data.data.clients.security_question|noneCheck}}" name="security_question">
+				            </div>
+				        </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Payment Option:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <select class="form-control select2" data-id="{{data.data.clients.payment_option}}" placeholder="" name="payment_option">
+			                    </select>
+				            </div>
+				        </div>
+
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Client Type:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" placeholder="" value="{{data.data.clients.client_type}}" name="client_type">
+				            </div>
+				        </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Sales Agent:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <select class="form-control select2" placeholder="" name="staff_and_agents_id">
+			                    </select>
+				            </div>
+				        </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Activation Date:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" placeholder="" value="{{data.data.clients.activation_date}}" name="activation_date">
+				            </div>
+				        </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Sales Contact:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" placeholder="" value="" name="">
+				            </div>
+				        </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Sales Phone:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" placeholder="" value="" name="">
+				            </div>
+				        </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Email For Bill:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" placeholder="" value="{{data.data.clients.client_email|noneCheck}}" name="client_email">
+				            </div>
+				        </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Phones:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" placeholder="" value="{{data.data.clients.client_phone_number|noneCheck}}" name="client_phone_number">
+				            </div>
+				        </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Fax:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" placeholder="" value="{{data.data.clients.client_fax_number|noneCheck}}" name="client_fax_number">
+				            </div>
+				        </div>
+			        </div>
+
+			    </div>
+			    <div class="col-xs-12 col-sm-12 col-md-4">
+					<div class="col-xs-12 text-center"><h5><strong>Rate Plans and Charging</strong></h5> </div>
+					<div class="form-group col-xs-12">
+			            <label class="col-xs-12 col-sm-12 col-md-4">Inter- national:</label>
+			            <div class="col-xs-12 col-sm-12 col-md-8">
+			                <input type="text" class="form-control" placeholder="" value="{{data.data.clients.international_voip_rate_plan|noneCheck}}" name="international_voip_rate_plan">
+			            </div>
+			        </div>
+					<div class="form-group col-xs-12">
+			            <label class="col-xs-12 col-sm-12 col-md-4">National:</label>
+			            <div class="col-xs-12 col-sm-12 col-md-8">
+			                <input type="text" class="form-control" placeholder="" value="{{data.data.clients.national_voip_rate_plan|noneCheck}}" name="national_voip_rate_plan">
+			            </div>
+			        </div>
+					<div class="form-group col-xs-12">
+			            <label class="col-xs-12 col-sm-12 col-md-4">Mobile Per Sec:</label>
+			            <div class="col-xs-12 col-sm-12 col-md-8">
+			                <select class="form-control select2" placeholder="" name="charge_client_gst_flag">
+			                	<option {% if data.data.clients.charge_calls_per_second == 1 %} selected="selected" {% endif %} value="1">Yes</option>
+			                	<option {% if data.data.clients.charge_calls_per_second == 0 %} selected="selected" {% endif %} value="0">No</option>
+			                </select>
+			            </div>
+			        </div>
+					<div class="col-xs-12 text-center"><h5><strong>Billing Control</strong></h5></div>
+					<div class="form-group col-xs-12">
+			            <label class="col-xs-12 col-sm-12 col-md-4">Email:</label>
+			            <div class="col-xs-12 col-sm-12 col-md-8">
+			                <select class="form-control select2" placeholder="" name="invoice_to_email">
+			                	<option {% if data.data.clients.invoice_to_email == 1 %} selected="selected" {% endif %} value="1">Yes</option>
+			                	<option {% if data.data.clients.invoice_to_email == 0 %} selected="selected" {% endif %} value="0">No</option>
+			                </select>
+			            </div>
+			        </div>
+					<div class="form-group col-xs-12">
+			            <label class="col-xs-12 col-sm-12 col-md-4">Print:</label>
+			            <div class="col-xs-12 col-sm-12 col-md-8">
+			                <select class="form-control select2" placeholder="" name="invoice_to_print">
+			                	<option {% if data.data.clients.invoice_to_print == 1 %} selected="selected" {% endif %} value="1">Yes</option>
+			                	<option {% if data.data.clients.invoice_to_print == 0 %} selected="selected" {% endif %} value="0">No</option>
+			                </select>
+			            </div>
+			        </div>
+					<div class="form-group col-xs-12">
+			            <label class="col-xs-12 col-sm-12 col-md-4">GST:</label>
+			            <div class="col-xs-12 col-sm-12 col-md-8">
+			                <select class="form-control select2" placeholder="" name="charge_client_gst_flag">
+			                	<option {% if data.data.clients.charge_client_gst_flag == 1 %} selected="selected" {% endif %} value="1">Yes</option>
+			                	<option {% if data.data.clients.charge_client_gst_flag == 0 %} selected="selected" {% endif %} value="0">No</option>
+			                </select>
+			            </div>
+			        </div>
+
+			    	<div class="form-group col-xs-12">
+			            <label class="col-xs-12 col-sm-12 col-md-4">Rating:</label>
+			            <div class="col-xs-12 col-sm-12 col-md-8">
+			                <input type="text" class="form-control" placeholder="" value="{{data.data.clients.client_rating|noneCheck}}" name="client_rating">
+			            </div>
+			    	</div>
+			    	<div class="form-group col-xs-12">
+			            <label class="col-xs-12 col-sm-12 col-md-4">Notes:</label>
+			            <div class="col-xs-12 col-sm-12 col-md-8">
+			                <textarea class="form-control" placeholder="" value="" name="notes" rows="2">{{data.data.clients.notes|noneCheck}}</textarea>
+			            </div>
+			    	</div>
+			    	<div class="form-group col-xs-12">
+			    	  	<span class="button-checkbox">
+				        	<button type="button" class="btn btn-primary pull-right wl-enable-btn">
+				        	{% if data.data.clients.wl_enabled == True %}
+				        		<i class="state-icon fa fa-check"></i> 
+				        	{% else %}
+				        		<i class="state-icon fa fa-square"></i> 
+				        	{% endif %}
+				        	White Label Enabled</button>
+				        	<input type="hidden" name="wl_enabled" value="{{data.data.clients.wl_enabled}}" />
+				    	</span>
+			    	</div>
+			    </div>
+			</form>
+
+			<form action="/client/editClient" method="POST">
+				<div class="col-xs-12 col-sm-12 col-md-12">
+					<div class="col-xs-12 col-sm-12 col-md-6">
+
+				        <input type="hidden" class="form-control" placeholder="" value="{{white_label.wl_client_id|noneCheck}}" name="wl_client_id">
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Customer:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" placeholder="" value="{{white_label.client_name|noneCheck}}" name="client_name">
+				            </div>
+				        </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Trading As:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" placeholder="" value="{{white_label.trading_as|noneCheck}}" name="trading_as">
+				            </div>
+				        </div>
+
+						<div class="col-xs-12 text-center"><h5><strong>Postal Address</strong></h5> </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Address 1:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control form-group" value="{{white_label.postal_address_1|noneCheck}}" placeholder="" name="postal_address_1">
+				            </div>
+				            <label class="col-xs-12 col-sm-12 col-md-4">Address 2:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control form-group" value="{{white_label.postal_address_2|noneCheck}}" placeholder="" name="postal_address_2">
+				            </div>
+				            <label class="col-xs-12 col-sm-12 col-md-4">Address 3:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control form-group" value="{{white_label.postal_address_3|noneCheck}}" placeholder="" name="postal_address_3">
+				            </div>
+				        </div>
+						<div class="col-xs-12 text-center"><h5><strong>Physical Address</strong></h5> </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Address 1:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control form-group" value="{{white_label.physical_address_1|noneCheck}}" placeholder="" name="physical_address_1">
+				            </div>
+				            <label class="col-xs-12 col-sm-12 col-md-4">Address 2:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control form-group" value="{{white_label.physical_address_2|noneCheck}}" placeholder="" name="physical_address_2">
+				            </div>
+				            <label class="col-xs-12 col-sm-12 col-md-4">Area:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control form-group" value="{{white_label.area|noneCheck}}" placeholder="" name="area">
+				            </div>
+				        </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Account Contact:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <select class="form-control select2" placeholder="" data-id="{{white_label.agent_id}}" name="agent_id">
+				                </select>
+				            </div>
+				        </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Email For Accounts:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" placeholder="" value="{{white_label.client_email}}" name="client_email">
+				            </div>
+				        </div>
+				    </div>
+					<div class="col-xs-12 col-sm-12 col-md-6">
+						
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Phones:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" placeholder="" value="{{white_label.client_phone_number}}" name="client_phone_number">
+				            </div>
+				        </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Fax:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" placeholder="" value="{{white_label.client_fax_number}}" name="client_fax_number">
+				            </div>
+				        </div>
+						<div class="col-xs-12 text-center"><h5><strong>Other Details</strong></h5></div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Client Id:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" placeholder="" value="{{white_label.client_id|noneCheck}}" readonly="readonly" name="client_id">
+				            </div>
+				        </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">WL Client Id:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" readonly="readonly" placeholder="" value="{{white_label.wl_client_id|noneCheck}}">
+				            </div>
+				        </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Partner Id:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" placeholder="" value="{{white_label.agent_customer_id|noneCheck}}" name="agent_customer_id">
+				            </div>
+				        </div>
+				        <div class="form-group col-xs-12">
+				            <label class="col-xs-12 col-sm-12 col-md-4">Client Type:</label>
+				            <div class="col-xs-12 col-sm-12 col-md-8">
+				                <input type="text" class="form-control" placeholder="" value="{{white_label.client_type|noneCheck}}" name="client_type">
+				            </div>
+				        </div>
+						<div class="col-xs-12">
+							<div class="col-xs-12 text-center"><h5><strong>Billing Options</strong></h5></div>
+							<div class="form-group col-xs-12">
+						        <label class="col-xs-12 col-sm-12 col-md-4">Email:</label>
+						        <div class="col-xs-12 col-sm-12 col-md-8">
+						            <select class="form-control select2" placeholder="" name="invoice_to_email">
+						            	<option {% if white_label.invoice_to_email == 1 %} selected="selected" {% endif %} value="1">Yes</option>
+						            	<option {% if white_label.invoice_to_email == 0 %} selected="selected" {% endif %} value="0">No</option>
+						            </select>
+						        </div>
+						    </div>
+							<div class="form-group col-xs-12">
+						        <label class="col-xs-12 col-sm-12 col-md-4">Print:</label>
+						        <div class="col-xs-12 col-sm-12 col-md-8">
+						            <select class="form-control select2" placeholder="" name="invoice_to_print">
+						            	<option {% if white_label.invoice_to_print == 1 %} selected="selected" {% endif %} value="1">Yes</option>
+						            	<option {% if white_label.invoice_to_print == 0 %} selected="selected" {% endif %} value="0">No</option>
+						            </select>
+						        </div>
+						    </div>
+							<div class="form-group col-xs-12">
+						        <label class="col-xs-12 col-sm-12 col-md-4">GST:</label>
+						        <div class="col-xs-12 col-sm-12 col-md-8">
+						            <select class="form-control select2" placeholder="" name="charge_client_gst_flag">
+						            	<option {% if white_label.charge_client_gst_flag == 1 %} selected="selected" {% endif %} value="1">Yes</option>
+						            	<option {% if white_label.charge_client_gst_flag == 0 %} selected="selected" {% endif %} value="0">No</option>
+						            </select>
+						        </div>
+						    </div>
+					        <div class="form-group col-xs-12">
+					            <label class="col-xs-12 col-sm-12 col-md-4">Payment Option:</label>
+					            <div class="col-xs-12 col-sm-12 col-md-8">
+					                <select class="form-control select2" placeholder="" data-id="{{white_label.payment_option}}" name="payment_option">
+					                </select>
+					            </div>
+					        </div>
+						</div>
+				    </div>
+				</div>
+				<div class="form-group col-xs-12">
+				    <label class="col-xs-12">Notes:</label>
+				    <div class="form-group col-xs-12" style="padding-left:15px">
+				        <textarea class="form-control" placeholder="" value="" name="notes" rows="3">{{white_label.notes}}</textarea>
+				    </div>
+				</div>
+			</form>
+        </div>
+        <input type="hidden" name="action" value="">
+        <div class="modal-footer col-xs-12">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary modal-action-btn">Submit</button>
+        </div>
+    </div>
+  </div>
+</div>

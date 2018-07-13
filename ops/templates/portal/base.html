@@ -1,0 +1,185 @@
+<html>
+{% load define_action %}
+{% load staticfiles %}  
+<head>
+    {% block extrahead %}
+    <link rel="shortcut icon" href="{% static 'portal/images/ufone_logo.ico' %}" sizes="any" type='image/x-icon' >
+    {% endblock %}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- head -->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Ops Portal</title>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300italic,regular,italic,600,600italic,700,700italic,800,800italic&amp;subset=latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Raleway:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic&amp;subset=latin-ext" rel="stylesheet" type="text/css">
+    <link href="{% static 'portal/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'portal/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'portal/css/daterangepicker.css' %}" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css" rel="stylesheet" type="text/css">
+    <link href="https://ajax.googleapis.com/ajax/static/modules/gviz/1.0/core/tooltip.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
+</head>
+<body>
+    <style>
+        body{background-color: #f1f1f1;float: left;width: 100%}
+        .user-basic-info, header{padding-top: 12px; padding-bottom: 10px;}
+        .wrapper.shrink{width: 83%;}
+        .wrapper:not(.shrink) .brand-logo{padding-left: 45px}
+        .wrapper{width: 100%;}
+        header{background-color: #b2b2b2;}
+        .dark-blue{color:#1b636d;}
+        .user-basic-info {border: 1px solid #dedede;margin-top: 5px;}
+        .user-detail{margin-top: 5px;}
+        .user-info .link-wrap {width: 100%; float: left;    }
+        .user-info{padding-right: 30px;}
+        .search-result{position: absolute;right: 96px;text-align: 10px;top: 30px}
+        .dropdown-menu{overflow-y:scroll;max-height:300px;}
+        .dropdown-menu a{float: left;width: 100%;padding: 5px; border-bottom: 1px solid #eee;color: #d17e17;}
+        .modal-backdrop{opacity: 0.1}
+        .brand-logo .app-lbl{font-size: 25px;position: relative;top: 2px;}
+        .btn-black {color:#333;font-weight: bold;}
+        .btn-black:hover{background-color:black;color:white;}
+        .partner-link{font-size:14px;padding: 2px}
+        .partner-link:hover{    position: relative;right: -5px;text-decoration: none; padding-right: 5px;padding-left: 5px;}
+        body{font-family: Open Sans, sans-serif}
+        .nav-tabs {font-size: 16px;}
+        .nav-tabs li a{color: #333;}
+        .nav-tabs li .active.show { background-color: #fff;border: 1px solid #ddd;
+        border-bottom-color: transparent;}
+        .user-detail{background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(243,246,248,1) 100%);}
+        input[type="search"]{    border-radius: 5px; padding: 5px; font-weight: 400;
+        font-size: 15px;}
+        .dataTables_wrapper{padding-top: 10px;}
+        .dataTables_length{margin-right:24px;}
+        .adv-search-result{max-height: 400px;overflow-y: scroll;}
+        .header-btns {position: absolute;right: 15px;top: 0px;}
+        .header-btns .btn {    padding: 9.4px 12px;    height: 34px;}
+        .search-field.closed{width: 200px;;}
+        .search-field{width:100%;transition: 1s}
+        .header-btns .btn.active {box-shadow:none;background-color:inherit;border-color: #ccc;}
+        .search-modal {border-top-left-radius: 0;border-bottom-left-radius: 0;}
+        .tooltip{opacity: 1}
+        .inner-addon .input-icon{position: absolute;right: 96px;top: 10px;}
+        .adv-search-result a{width: 100%;float: left;position: relative;background-color: #fdfdfd;padding: 5px;}
+        span.select2-selection__arrow{height: 30px!important;}
+        .search-result .dropdown-menu{right: -43px;min-width: 262px; padding: 4px 12px;}
+        .select2{width:100%!important;}
+        .content-wrap{padding: 5px 0;  background-color: #fffdfd; border: 1px solid lightgrey;}
+        .pad-0{padding:0;}
+        .daterangepicker{display: block;}
+        .modal .daterangepicker{position: relative; top: 0; padding: 5px; left: 0; width: 100%;    margin-top: 0px;}
+        .logout-wrap{position: absolute;top: 2px;right: 0}
+        .logout-btn{padding-top: 4px;}
+       
+    </style>
+     <div class="container-fluid wrapper shrink pull-right">
+        <div class="row">
+            <header class="col-xs-12">
+                <div class="brand-logo col-xs-12 col-sm-5 col-md-4 col-lg-5">
+                    <strong class="app-lbl">{{request.path | page_heading}} &nbsp;&nbsp;</strong>
+                </div>
+                <div class="menus-right col-xs-12 col-sm-7 col-md-8 col-lg-7">
+                    <div class="search-box col-xs-12 col-sm-10 col-md-7 col-lg-7">
+                        {% if request.resolver_match.url_name != "login" %}
+
+
+                            <div class="inner-addon right-addon" style="margin-bottom: 2px;">
+                            {% if 'Partner' in request.resolver_match.url_name %}
+                                <div class="btn-group header-btns pull-right" data-toggle="buttons">
+                                    <a class="btn btn-default search-modal invoker" data-title="Advance Search Client"  >
+                                        <i data-toggle="tooltip" data-placement="top" title="Advance Search" class="fa fa-search"></i>
+                                    </a>
+                                </div>
+                                <!-- <i class="fa fa-search input-icon"></i> -->
+                                <i class="fa fa-spinner fa-spin input-icon" style="display: none"></i>
+                                <input type="text" data-type="partner" class="form-control search-field search-partner closed pull-right" name="search" placeholder="Search Partner" />
+                            {% else %}
+                                <div class="btn-group header-btns pull-right" data-toggle="buttons">
+                                    <a class="btn btn-default search-modal invoker" data-title="Advance Search Client"  >
+                                        <i data-toggle="tooltip" data-placement="top" title="Advance Search" class="fa fa-search"></i>
+                                    </a>
+                                    <a data-toggle="tooltip" data-placement="bottom" title="Create Account" class="btn btn-default add-customer"><i class="fa fa-plus"></i></a>
+                                </div>
+                                <!-- <i class="fa fa-search input-icon"></i> -->
+                                <i class="fa fa-spinner fa-spin input-icon" style="display: none"></i>
+                                <input type="text" data-type="services" class="form-control search-services search-field closed pull-right" name="search" placeholder="Search Services" />
+                               <!--  <a style="position: absolute;top: 0;right: 0px;border-radius: 0 5px 5px 0px;padding-bottom: 6px;" class="btn btn-default search-modal invoker" data-title="Advance Search Client" data-toggle="modal" data-target=".base-modal" ><i class="fa fa-search"></i></a> -->
+
+                                <div class="modal-content advance-search hidden">
+                                    <form class="ad-search" action="{{request.META.HTTP_NAME }}/api/clientAdvanceSearch" method="post">
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <input type="text" name="cl_name" class="form-control" placeholder="Name">
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <input type="text" name="cl_email" class="form-control" placeholder="Email">
+                                        </div>
+                                        <div class="col-xs-12"><br></div>
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <input type="text" name="cl_contact" class="form-control" placeholder="Client Contact">
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <input type="text" name="cl_area" class="form-control" placeholder="Area">
+                                        </div>
+                                        <div class="col-xs-12"><br></div>
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <input type="text" name="cl_phone" class="form-control" placeholder="Phone 1">
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <input type="text" name="cl_fax" class="form-control" placeholder="Fax Number">
+                                        </div>
+                                        {% csrf_token %}
+                                    </form>
+                                    <div class="row search-result-wrapper" style="display:none">
+                                        <div class="col-xs-12 adv-search-result"></div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                                <div class="dropdown show search-result pull-right">
+                                    <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+                                        {% include "portal/components/search_result.html" %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="user-info col-xs-12 col-sm-2 col-md-5 col-lg-5 text-right">
+                        <div class="link-wrap">
+                        {% if request.resolver_match.url_name == "home" %}
+                            <a href="#" class="btn-sm btn-black partner-link pull-right" >
+                            {{ user_data.staff_agent_name }}</a>
+                        {% else %}
+                            <a title="Back To Main Account"  href="#" class="btn-sm btn-black partner-link pull-right" >
+                            {{ user_data.staff_agent_name }}</a>
+                        </div>
+                        {% endif %}
+                        <!--  <div class="link-wrap">
+                        <a class="btn-black logout-btn btn-sm partner-link pull-right" href="{{ request.META.HTTP_NAME }}/logout">Logout</a>
+                        </div> -->
+                        <br>
+                         <div class="logout-wrap">
+                        <a class="btn-black logout-btn btn-sm partner-link pull-right" href="{{ request.META.HTTP_NAME }}/logout"><i class="fa fa-sign-out"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <!-- side navbar -->
+        {% include "portal/components/side_navbar.html" %}
+        {% block content %}
+        {% endblock %}
+        {% include "portal/components/modal.html" %}
+     </div>   
+
+     <script type="text/javascript">
+        $("[data-toggle=\"tooltip\"]").tooltip();
+    </script>
+</body>
+
+ {% include "portal/components/main_js.html" %}
+</html>

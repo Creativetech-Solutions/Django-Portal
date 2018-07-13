@@ -1,0 +1,87 @@
+<table class="table" id="oneoffinvoicesTable" style="width:100%"></table>
+<script>
+    function getOneOffInvoices(){
+        jQuery('#oneoffinvoicesTable').dataTable({
+            "ajax": "{{ request.META.HTTP_NAME }}/client/getOneoffinvoices/{{ data.data.clients.client_id}}",
+            "pageLength": 10,
+            "bDestroy": true,
+            "responsive":true,
+            language: { search: "",searchPlaceholder: "Search" },
+            aoColumns: [
+                {
+                    mData: 'invoice_number'
+                },
+                {
+                    mData: 'invoice_date'
+                },
+                {
+                    mData: 'oi_description'
+                },
+                {
+                    mData: 'oi_gross_amount'
+                },
+                {
+                    mData: 'credits'
+                },
+                {
+                    mData: 'payments'
+                },
+                {
+                    mData: 'total_amount'
+                },
+                {
+                    mData: 'oi_transaction_id',
+                    render: function ( data, type, row, meta ) {
+                        return '<span><a class="btn" href="{{ request.META.HTTP_NAME }}/clients/'+row.client_id+'">View </a><a class="btn"  href="{{ request.META.HTTP_NAME }}/clients/'+row.client_id+'">Email </a></span>';
+                    }
+                }
+            ],
+
+            "columnDefs": [
+                {
+                    "title": "Invoice #",
+                    "targets": 0
+                },
+                {
+                    "title": "Date",
+                    "targets": 1
+                },
+                {
+                    "title": "Order #",
+                    "targets": 2
+                },
+                {
+                    "title": "Gross",
+                    "targets": 3
+                },
+                {
+                    "title": "Credits",
+                    "targets": 4
+                },
+                {
+                    "title": "Payments",
+                    "targets": 5
+                },
+                {
+                    "title": "Total Due",
+                    "targets": 6
+                },
+                {
+                    "title": "Action",
+                    "targets": 7
+                },
+
+
+            ],
+           "sDom": 'lfBrtip',
+            buttons: [
+                {
+                  text: 'Create Invoice',
+                  action: function ( e, dt, node, config ) {
+                    $('.add-edit-modal').modal('show');
+                  }
+                }
+            ],
+        });
+    }
+</script>

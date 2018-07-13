@@ -1,0 +1,30 @@
+
+{% if data.isSuccess == True %}
+	{% if data.data.clients %}
+      {% for client in data.data.clients %}
+        <a href="{{ request.META.HTTP_NAME }}/account/maintain/{{ client.client_id }}" class="dropdown-item select-client">{{ client.client_name }} (
+
+          {% if client.client_phone_number %}
+            {{ client.client_phone_number}}
+          {% elif client.ip_address %}
+            {{ client.ip_address}}
+          {% elif client.calling_number %}
+            {{ client.calling_number}}
+          {% endif %}
+
+          )
+        </a>
+      {% endfor %}
+  {% elif data.data.staffs %}
+      {% for staff in data.data.staffs %}
+        <a href="{{ request.META.HTTP_NAME }}/partner/maintain/{{ staff.staff_and_agents_id }}" class="dropdown-item select-client">{{ staff.staff_agent_name }} 
+        </a>
+      {% endfor %}
+  {% else %}
+      <a class="dropdown-item" href="#">No Result Found</a>
+  {% endif %}
+{% endif %} 
+
+{% if data.isSuccess == False %} 
+      <a class="dropdown-item" href="#">No Result Found</a>
+{% endif %} 

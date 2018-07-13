@@ -1,0 +1,57 @@
+<table class="table" id="customersTable" style="width:100%"></table>
+
+<script>
+    function getCustomers(){
+        jQuery('#customersTable').dataTable({
+            "ajax": "{{ request.META.HTTP_NAME }}/partner/getClients/{{data.data.staff.staff_and_agents_id}}",
+            "pageLength": 10,
+            "bDestroy": true,
+            "responsive":true,
+            language: { search: "",searchPlaceholder: "Search" },
+            aoColumns: [
+                {
+                    mData: 'client_id'
+                },
+                {
+                    mData: 'client_name'
+                },
+                {
+                    mData: 'client_contact'
+                },
+                {
+                    mData: 'wl_enabled',
+                    render: function ( data, type, row, meta ) {
+                        if(data)
+                            var check = 'checked="checked"';
+                        else
+                            var check = ''
+                        return '<input type="checkbox" '+check+' onclick="javascript: return false;"/>';
+                    }
+                }
+            ],
+
+            "columnDefs": [
+                {
+                    "title": "Id",
+                    "targets": 0
+                },
+                {
+                    "title": "Customer",
+                    "targets": 1
+                },
+                {
+                    "title": "Contact",
+                    "targets": 2
+                },
+                {
+                    "title": "Wl Enabled",
+                    "targets": 3
+                },
+            ],
+           "sDom": 'lfBrtip'
+        });
+    }
+
+   
+   
+</script>

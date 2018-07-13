@@ -1,0 +1,52 @@
+{% load define_action %}
+<div class="sect-title text-center col-xs-12"><h4>Credits</h4></div>
+<div class="sect-body center col-xs-12 acc-credits">
+	<div class="creditTable  col-xs-12 pad-0">
+		<div class="row heading" style="font-weight: bold;">
+			<div class="col-xs-4 col-sm-3 text-left">Date</div>
+			<div class="col-xs-4 col-sm-6 text-left">Description</div>
+			<div class="col-xs-4 col-sm-3 text-right" style="padding-right: 38px;">Amount</div>
+		</div><div class="spacer"></div>
+		<div class="credits-list col-xs-12">
+			{% if data.isSuccess == True %}
+				{% if data.data.credits %}
+					{% for credit in data.data.credits %}
+						<div class="row">
+							<div class="col-xs-4 col-sm-3 text-left">{{ credit.credits_date }}</div>
+							<div class="col-xs-4 col-sm-6 text-left" style="padding:0 4px">{{ credit.credits_description }}</div>
+							<div class="col-xs-4 col-sm-3 text-right">{{ credit.credits_gross_amount|amountFormat }}</div>
+						</div>
+					{% endfor %}
+				{% else %}
+					<div class="row"> <div class="col-xs-12">No Record Found</div> </div>
+				{% endif %}
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+<!-- <div class="sect-title text-center col-xs-12"><h4>Credits</h4></div>
+<div class="sect-body center col-xs-12 acc-credits">
+	<table style="display: block">
+		<tr>
+			<th>Date</th>
+			<th>Description</th>
+			<th>Amount</th>
+		</tr>
+	{% if data.isSuccess == True %}
+		{% if data.data.credits %}
+			{% for credit in data.data.credits %}
+				<tr>
+					<td>{{ credit.credits_date }}</td>
+					<td>{{ credit.credits_description }}</td>
+					<td>$ {{ credit.credits_gross_amount }}</td>
+				</tr>
+			{% endfor %}
+		{% else %}
+				<tr><td>No Record Found</td></tr>
+		{% endif %}
+	{% endif %}
+	</table>
+</div>
+
+ -->

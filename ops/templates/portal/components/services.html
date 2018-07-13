@@ -1,0 +1,21 @@
+{% load define_action %}
+<div class="col-xs-12">
+      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">Total Amount:</div>
+      <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10 name">{{data.total_amt|amountFormat }}</div>
+</div>
+<div class="col-xs-12">
+      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">Toll Calls:</div>
+      <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10 email">{{data.toll_calls_amt|amountFormat }}</div>
+</div>
+<div class="col-xs-12">
+      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2"> Local:</div>
+      <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10 fax_num">{{data.local_ditto_amt|amountFormat }}</div>
+</div>
+<div class="col-xs-12">
+      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">Total Fax:</div>
+      <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10 phone_num">{{data.fax_amt|amountFormat }}</div>
+</div>
+<div class="col-xs-12">
+      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">Standing Charges:</div>
+      <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10 area">{{data.st_charges_amt|amountFormat }}</div>
+</div>

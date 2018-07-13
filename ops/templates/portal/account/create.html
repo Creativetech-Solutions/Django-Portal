@@ -1,0 +1,117 @@
+{% extends "portal/base.html" %}
+{% block content %}
+
+<div class="row" style="background-color: #f1f1f1;">
+    <div class="content-wrap col-xs-12">
+      {% include "portal/account/create_content.html" %}
+  </div>
+</div>
+<script>
+    $(document).ready(function(e){
+      
+        $.ajax({
+          url: "{{request.META.HTTP_NAME }}/business/getBusinessTypes",
+          success: function( data ) {
+            $('select[name="business_type_id"]').html(data);
+            }
+        })
+        $.ajax({
+          url: "{{request.META.HTTP_NAME }}/area/getAreaNames",
+          success: function( data ) {
+            $('select[name="area_name_id"]').html(data);
+            }
+        })
+        $.ajax({
+          url: "{{request.META.HTTP_NAME }}/industry/getIndustries",
+          success: function( data ) {
+            $('select[name="industry_id"]').html(data);
+            }
+        })
+        $.ajax({
+          url: "{{request.META.HTTP_NAME }}/country/getCountries",
+          success: function( data ) {
+            $('select[name="country_id"]').html(data);
+            $('select[name="country_id"]').val('185').trigger('change.select2');
+            }
+        })
+        $.ajax({
+          url: "{{request.META.HTTP_NAME }}/payment/getPaymentOptions",
+          success: function( data ) {
+            $('select[name="payment_option_id"]').html(data);
+            }
+        })
+    })
+
+    $(document).on('blur', 'input[name="phone_num_1"]', function(e){
+      var areaCode = $(this).val();
+
+      if(areaCode == "") return false;
+
+      $.ajax({
+        url: "{{request.META.HTTP_NAME }}/area/getAreaNames/"+areaCode,
+        success: function( data ) {
+            data = JSON.parse(data);
+            if (data.data != undefined && data.data.area_names.length > 0)
+              $('select[name="area_name_id"]').val(data.data.area_names[0].national_area_name_id).trigger('change.select2');
+          }
+      })
+    })
+
+    $(document).on('submit','.create-acc-form', function(e){
+        e.preventDefault();
+        var url = "{{request.META.HTTP_NAME }}/account/creating";
+        var form=$(this);
+        // check integer values 
+        var intInputs = ['area_name_id','country_id', 'account_mananger_id','industry_id', 'business_type_id'];
+        var error = false;
+        if($('input[name="client_name"]').val() == ""){
+            formgroup = $('input[name="client_name"]').parents('.form-group');
+            formgroup.find('.text-danger').remove();
+            formgroup.append('<span class="text-danger">Name is Required</span>');
+            error = true;
+        }
+
+        $.each(intInputs, function(i, val){
+            var inputVal = $('select[name="'+val+'"]').val();
+            if(Math.floor(inputVal) != inputVal || !$.isNumeric(inputVal)) {
+              console.log(inputVal);
+                var formgroup = $('input[name="'+val+'"]').parents('.form-group');
+                formgroup.find('.text-danger').remove();
+                formgroup.append('<span class="text-danger">Value Must Be Integer</span>');
+                error = true;
+            }
+        })
+        console.log(error);
+        if(error) return false;
+        else $('.text-danger').remove();
+
+        $.ajax({
+          type: "POST",
+          url: url,
+          // data: form.serialize(),
+          data:  new FormData(this),
+          contentType: false,
+          cache: false, 
+          processData:false,
+          beforeSend:function(){
+            form.find('.create-acc').val('Submitting');
+          },
+          success: function( data ) {
+            data = JSON.parse(data)
+            if(data['alert'] == 'success')
+                $('.create-account-wrap .alert').addClass('alert-success').removeClass('alert-danger');
+            else 
+                $('.create-account-wrap .alert').addClass('alert-danger').removeClass('alert-success');
+
+            $('.create-account-wrap .alert').html(data['message']).show().delay( 5000 ).fadeOut();
+            form.find('.create-acc').val('Submit');
+          },
+          error:function(){
+
+          }
+      })
+    })
+</script>
+
+{% endblock %}
+

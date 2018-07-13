@@ -1,0 +1,44 @@
+{% load define_action %}
+<div class="paymentsTable col-xs-12 pad-0">
+	<div class="row heading" style="font-weight: bold;">
+		<div class="col-xs-6 text-left">Date</div>
+		<div class="col-xs-6 text-right" style="padding-right: 38px;">Amount</div>
+	</div><div class="spacer"></div>
+	<div class="payments-list col-xs-12">
+		{% if data.isSuccess == True %}
+			{% if data.data.payments %}
+				{% for payment in data.data.payments %}
+					<div class="row">
+						<div class="col-xs-6 text-left">{{ payment.payments_date }}</div>
+						<div class="col-xs-6 text-right">{{ payment.discount_allowed_amount|amountFormat }}</div>
+					</div>
+				{% endfor %}
+			{% else %}
+				<div class="row"> <div class="col-xs-12">No Record Found</div> </div>
+			{% endif %}
+		{% endif %}
+	</div>
+</div>
+
+<!-- <table style="display: block">
+<tbody>
+	<tr>
+		<th>Date</th>
+		<th>Amount</th>
+	</tr>
+{% if data.isSuccess == True %}
+	{% if data.data.payments %}
+		{% for payment in data.data.payments %}
+			<tr>
+				<td>{{ payment.payments_date }}</td>
+				<td>$ {{ payment.discount_allowed_amount }}</td>
+			</tr>
+		{% endfor %}
+	{% else %}
+			<tr><td>No Record Found</td></tr>
+	{% endif %}
+{% endif %}
+</tbody>
+</table>
+
+ -->

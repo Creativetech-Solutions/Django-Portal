@@ -1,0 +1,137 @@
+
+<html>
+  
+<head>
+{% load staticfiles %}  
+    {% block extrahead %}
+    <link rel="shortcut icon" href="{% static 'portal/images/ufone_logo.ico' %}" sizes="any" type='image/x-icon' >
+    {% endblock %}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- head -->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Ops Portal</title><!-- 
+    <link href="/static/portal/images/ufone_logo.ico" rel="shortcut icon" type="image/vnd.microsoft.icon"> -->
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300italic,regular,italic,600,600italic,700,700italic,800,800italic&amp;subset=latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Raleway:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic&amp;subset=latin-ext" rel="stylesheet" type="text/css">
+    <link href="{% static 'portal/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'portal/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+   
+    <script src="{% static 'portal/js/jquery.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'portal/js/bootstrap.min.js' %}" type="text/javascript"></script>
+  
+
+    <link href="https://ajax.googleapis.com/ajax/static/modules/gviz/1.0/core/tooltip.css" rel="stylesheet" type="text/css">
+</head>
+<style>
+    #sp-main-body {
+    padding: 50px 0;
+}
+</style>
+<body class="site com-ubillingportal view-ubillingportal no-layout no-task itemid-1166 en-gb ltr  sticky-header layout-fluid off-canvas-menu-init">
+
+    <div class="body-wrapper off-canvas-menu-wrap">
+        <div class="body-innerwrapper body_innerwrapper_overflow">
+            <section id="sp-main-body">
+                <div class="container">
+                    <div class="row">
+                        <div id="sp-component" class="col-sm-12 col-md-12">
+                            <div class="sp-column ">
+                                <div id="system-message-container">
+                                    {% if errors and errors != '' %}
+                                        <div id="system-message">
+                                            <div class="alert alert-error">
+                                                <a class="close" data-dismiss="alert">×</a>
+                                                <h4 class="alert-heading">Error</h4>
+                                                <div>
+                                                <p>{{ errors }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {%  endif %}
+                                </div>
+
+                                <script src="{% static 'portal/js/jquery.dataTables.min.js' %}"></script>
+                                <script src="{% static 'portal/js/dataTables.bootstrap.js' %}"></script>
+                                <link type="text/css" href="{% static 'portal/css/dataTables.bootstrap.css' %}">
+                                <link type="text/css" rel="stylesheet" href="{% static 'portal/css/dataTables.CSV.css' %}">
+                                <script src="{% static 'portal/js/dataTables.CSV.js' %}"></script>
+                              
+
+                                
+                            <div id="login-content" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12 text-center">
+                                <h1 class="login_title">Ops Portal Login</h1>
+                                <form action="{{ request.META.HTTP_NAME }}/api/userlogin" method="post" id="loginform">
+                                
+                                {% csrf_token %}<br><br>
+                                <div class="col-xs-5">
+                                    <input type="text" id="account" name="account" class="form-control" placeholder="Account#" required />
+                                </div>
+                                <div class="col-xs-5 col-xs-offset-2">
+                                    <input type="password" id="pass" name="pass" class="form-control" placeholder="Password" required />
+                                </div>
+                                <div class="col-xs-12"><br>
+                                    <div class="text-left" style="width:210px;margin:0 auto">
+                                        <label class="checkbox">
+                                        <input type="checkbox" checked="checked"> 
+                                            <p>Remember Login <br> 
+                                            (Don't use on shared computer) </p>
+                                        </label>
+                                    </div><br>
+                                </div>
+                                <div class="col-xs-5">
+                                    <input class="btn btn-black btn-lg pull-right" type="submit" value="LOG IN" />
+                                </div>
+                                <div class="col-xs-5 col-xs-offset-2">
+                                    <input class="btn btn-black btn-lg pull-left" type="button" value="CLEAR" onclick="ClearData()" />
+                                    <input type="hidden" name="a11059eaa8afa330839109f115862ec9" value="1" /> 
+                                </div>
+                                </form>
+                            </div>
+
+                            <script type="text/javascript">
+                                function ClearData() {
+                                    jQuery('#loginform').find("input[type=text],input[type=password]").val("");
+                                    jQuery('#loginform').find("input[type=checkbox]:checked").removeAttr('checked');
+                                }
+                            </script>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- /.body-innerwrapper -->
+    </div>
+</body>
+
+<script>
+/*    $(document).on('submit','.loginform', function(e){
+        e.preventDefault();
+        var form=$(this);
+        var formData = new FormData(this);
+        $.ajax({
+          type: "POST",
+          url: form.attr( 'action' ),
+          // data: form.serialize(),
+          data:  formData,
+          contentType: false,
+          cache: false, 
+          processData:false,
+          beforeSend:function(){
+            
+          },
+          success: function( data ) {
+            console.log(data)
+          },
+          error:function(data){
+            console.log(data);
+          }
+      });
+    })*/
+
+
+</script>
+</html>

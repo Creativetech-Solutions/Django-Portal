@@ -1,0 +1,135 @@
+<table class="table" id="mobilesTable" style="width:100%"></table>
+
+<script>
+    function getMobiles(){
+        jQuery('#mobilesTable').dataTable({
+            "ajax": "{{ request.META.HTTP_NAME }}/client/getMobiles/{{ data.data.clients.client_id}}",
+            "pageLength": 10,
+            "bDestroy": true,
+            "responsive":true,
+            language: { search: "",searchPlaceholder: "Search" },
+            aoColumns: [
+                {
+                    mData: 'calling_number'
+                },
+                {
+                    mData: 'mobile_owners_name'
+                },
+                {
+                    mData: 'mobile_plan_name'
+                },
+                {
+                    mData: 'line_type'
+                },
+                {
+                    mData: 'client_to_phone_id',
+                    render: function ( data, type, row, meta ) {
+                        return '<a class="btn btn-primary btn-sm edit-contact" data-toggle="modal" data-target=".add-edit-modal" data-id="'+row.client_to_phone_id+'">Edit </a>';
+                    }
+                }
+            ],
+
+            "columnDefs": [
+                {
+                    "title": "Phone",
+                    "targets": 0
+                },
+                {
+                    "title": "Owner/User",
+                    "targets": 1
+                },
+                {
+                    "title": "Mobile Plan",
+                    "targets": 2
+                },
+                {
+                    "title": "Line Type/Status",
+                    "targets": 3
+                },
+                {
+                    "title": "Action",
+                    "targets": 4
+                },
+            ],
+           "sDom": 'lfBrtip',
+            buttons: [
+                {
+                  text: 'Add Mobile',
+                  action: function ( e, dt, node, config ) {
+                    $(".add-edit-modal").modal('show');
+                  }
+                }
+            ],
+            "initComplete": function(settings, json) {
+                // get area names
+                if ($('.placeholders .area_names').html() == ""){
+                 $.ajax({
+                      url: "{{request.META.HTTP_NAME }}/area/getAreaNames",
+                      success: function( data ) {
+                            $('.placeholders .area_names').html(data);
+                        }
+                    })
+                }
+                // get line types
+                if ($('.placeholders .line_types').html() == ""){
+                 $.ajax({
+                      url: "{{request.META.HTTP_NAME }}/linetype/getLineTypes",
+                      success: function( data ) {
+                            $('.placeholders .line_types').html(data);
+                        }
+                    })
+                }
+                // get mobile_plans
+                if ($('.placeholders .mobile_plans').html() == ""){
+                 $.ajax({
+                      url: "{{request.META.HTTP_NAME }}/plans/getMobilePlans",
+                      success: function( data ) {
+                            $('.placeholders .mobile_plans').html(data);
+                        }
+                    })
+                }
+                // get mobile_group_plans
+                if ($('.placeholders .mobile_group_plans').html() == ""){
+                 $.ajax({
+                      url: "{{request.META.HTTP_NAME }}/plans/getMobileGroupPlans",
+                      success: function( data ) {
+                            $('.placeholders .mobile_group_plans').html(data);
+                        }
+                    })
+                }
+            }
+        });
+    }
+
+    function getMobilesForm(mobileId, ref){
+        if(mobileId == null){
+          mobileId = 0
+          ref.find('.modal-title').html('Add Mobile');
+        } else
+          ref.find('.modal-title').html('Edit Mobile');
+          
+         $.ajax({
+          url: "{{request.META.HTTP_NAME }}/client/getMobiles/{{data.data.clients.client_id}}",
+          data:{mobileId:mobileId},
+          beforeSend:function(){
+            ref.find('.modal-body').html('<div class="text-center col-xs-12"><i class="fa fa-spinner fa-spin fa-2x"></i></div>');
+          },
+          success: function( data ) {
+                ref.find('.modal-body').html(data);
+                mob_line_types = ['8','9','10','11']; 
+                ref.find('select[name="national_area_name_id"]').html($('.placeholders .area_names').html());
+                ref.find('select[name="line_type_id"]').html($('.placeholders .line_types').html());
+                ref.find('select[name="mobile_plan_id"]').html($('.placeholders .mobile_plans').html());
+                ref.find('select[name="mobile_group_plan_id"]').html($('.placeholders .mobile_group_plans').html());
+
+                ref.find('select[name="national_area_name_id"]').val(ref.find('select[name="national_area_name_id"]').attr('data-id')).trigger('change.select2');
+                ref.find('select[name="line_type_id"]').val(ref.find('select[name="line_type_id"]').attr('data-id')).trigger('change.select2');
+                ref.find('select[name="mobile_plan_id"]').val(ref.find('select[name="mobile_plan_id"]').attr('data-id')).trigger('change.select2');
+                ref.find('select[name="mobile_group_plan_id"]').val(ref.find('select[name="mobile_group_plan_id"]').attr('data-id')).trigger('change.select2');
+                $('select[name="line_type_id"] option').each(function() {
+                  if(!mob_line_types.includes($(this).val())) $(this).remove();
+                });
+            }
+        }) 
+    }
+</script>

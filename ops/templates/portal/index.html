@@ -1,0 +1,740 @@
+{% extends "portal/base.html" %}
+{% block content %}
+<style>
+    .user-detail{background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(243,246,248,1) 100%);}
+    .actions-wrap .btn{ width: 130px;margin: 2px 0px;white-space:normal;}
+
+</style>
+
+
+<div class="row" style="background-color: #f1f1f1;">
+
+    <div class="col-xs-12 user-basic-info ">
+        <div class="col-xs-12">
+            <div class="">
+                <strong>Services Detail</strong>
+            </div>
+            <div class="client-info-wrapper">
+                {% include "portal/components/services.html" %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row col-xs-12 user-detail">
+        <div class="col-xs-12 col-sm-8 col-md-10" style="background-color: #dddddd;min-height: 590px;">
+
+          <ul class="nav nav-tabs">
+            <li><a class="active show" data-toggle="tab" href="#home">Accounts</a></li>
+            <li><a data-toggle="tab" href="#invoices">Invoices</a></li>
+            {% if user_data.userType == "White Label Partner" %}
+                <li><a data-toggle="tab" href="#wl_invoices">WL Invoices</a></li>
+            {% endif %}
+            <li><a data-toggle="tab" href="#st_charges">Standing Charges</a></li>
+            <li><a data-toggle="tab" href="#phones">Calling</a></li>
+            <li><a data-toggle="tab" href="#toll_free">Toll Free </a></li>
+            <li><a data-toggle="tab" href="#pricing">Pricing</a></li>
+            {% if user_data.userType == "White Label Partner" %}
+                <li><a data-toggle="tab" href="#contacts">Contacts</a></li>
+            {% endif %}
+            <li><a data-toggle="tab" href="#feeds">Feeds</a></li>
+            <li><a data-toggle="tab" href="#tasks">Tasks</a></li>
+          </ul>
+
+          <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+                <table class="table " id="accountsTable" style="width:100%"></table>
+            </div>
+            <div id="invoices" class="tab-pane">
+                <table class="table " id="invoicesTable" style="width:100%"></table>
+            </div>
+            {% if user_data.userType == "White Label Partner" %}
+            <div id="wl_invoices" class="tab-pane">
+                <table class="table " id="wl_invoicesTable" style="width:100%"></table>
+            </div>
+            <div id="contacts" class="tab-pane">
+                <table class="table " id="contactsTable" style="width:100%"></table>
+            </div>
+            {% endif %}
+            <div id="phones" class="tab-pane">
+                <table class="table " id="phonesTable" style="width:100%"></table>
+            </div>
+            <div id="toll_free" class="tab-pane">
+                <table class="table " id="toll_freeTable" style="width:100%"></table>
+            </div>
+            <div id="st_charges" class="tab-pane">
+                <table class="table " id="st_chargesTable" style="width:100%"></table>
+            </div>
+            <div id="pricing" class="tab-pane">
+                <table class="table " id="pricingTable" style="width:100%"></table>
+            </div>
+            <div id="feeds" class="tab-pane">
+                <table class="table " id="feedsTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="">Type</th>
+                            <th class="center">Downloads</th>
+                        </tr>
+                    </thead>
+                </table>
+                <tbody>
+                </tbody>
+            </div>
+            <div id="tasks" class="tab-pane">
+                <table class="table " id="tasksTable" style="width:100%">In Process</table>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-2">
+            <div class="actions-wrap text-center">
+                <div class="col-xs-12"><a class="btn btn-danger">Edit</a></div>
+                <div class="col-xs-12"><a class="btn btn-default">Enable/Edit Wl</a></div>
+                <div class="col-xs-12"><a class="btn btn-primary">Make or Replace Bundled Charge</a></div>
+                <div class="col-xs-12"><a class="btn btn-primary">Create Invoice</a></div>
+                <div class="col-xs-12"><a class="btn btn-default">Account History</a></div>
+                <div class="col-xs-12"><a class="btn btn-default">Profitablitly</a></div>
+                <div class="col-xs-12"><a class="btn btn-default">Calls</a></div>
+                <div class="col-xs-12"><a class="btn btn-default">Calls Analysis</a></div>
+                <div class="col-xs-12"><a class="btn btn-default">TF Calls Analysis</a></div>
+                <div class="col-xs-12"><a class="btn btn-default">Services</a></div>
+                <div class="col-xs-12"><a class="btn btn-default">Other Charges</a></div>
+                <div class="col-xs-12"><a class="btn btn-primary">Credit Card</a></div>
+                <div class="col-xs-12"><a class="btn btn-primary">Phone Lookup</a></div>
+                <div class="col-xs-12"><a class="btn btn-primary">Tollfree Lookup</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% include "portal/components/ws_js.html" %}
+
+{% include "portal/components/wl_js.html" %}
+
+
+<!-- create account form  -->
+{% include "portal/create_account.html" %}
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        // getClients()
+        getAllClients();
+        getAllInvoices();
+        getAllPricing();
+        getAllPhones();
+        getAllTollFree();
+        getAllStandCharges();
+        getFeeds();
+
+        $('#feedsTable').dataTable({
+            "paging":   false,
+            "ordering": false,
+            "info":     false,
+            "searching": false
+        } );
+
+    })
+
+    $('.nav.nav-tabs')
+ 
+
+    function getAllInvoices(){
+        jQuery('#invoicesTable').dataTable({
+            "ajax": "{{ request.META.HTTP_NAME }}/api/getInvoices",
+            "pageLength": 10,
+            "bDestroy": true,responsive: true,
+            language: { search: "",searchPlaceholder: "Search" },
+            aoColumns: [
+                {
+                    mData: 'client_id'
+                },
+                {
+                    mData: 'client_name',
+                    render: function ( data, type, row, meta ) {
+                        var clientName = row.client_name;
+                        var trim_name = clientName.substr(clientName.indexOf("(")+1, (clientName.indexOf(')')-clientName.indexOf("(")-1));
+                        if (trim_name != "")
+                            clientName = trim_name;
+
+                        return '<a href="{{ request.META.HTTP_NAME }}/clients/'+row.client_id+'">'+clientName+'</a>'+'<a data-id="'+row.client_id+'" class="btn btn-warning btn-xs pull-right show-more-inovices"><i class="fa fa-angle-down"></i> More</a>';
+                    }
+                },
+                {
+                    mData: 'invoice_number'
+                },
+                {
+                    mData: 'invoice_date'
+                },
+                {
+                    mData: 'invoice_net_amount'
+                },
+                {
+                    mData: 'invoice_gst_amount'
+                },
+                {
+                    mData: 'invoice_gross_amount'
+                }
+            ],
+
+            "columnDefs": [
+                {
+                    "title": "Id",
+                    "targets": 0
+                },
+
+                {
+                    "title": "Name",
+                    "targets": 1
+                },
+
+                {
+                    "title": "Invoice No.",
+                    "targets": 2
+                },
+
+                {
+                    "title": "Date",
+                    "targets": 3
+                },
+
+                {
+                    "title": "Net Amt",
+                    "targets": 4
+                },
+
+                {
+                    "title": "Gst Amt",
+                    "targets": 5
+                },
+
+                {
+                    "title": "Gross Amt",
+                    "targets": 6
+                }
+
+            ],
+        });
+    }
+
+    function getAllPricing(){
+        jQuery('#pricingTable').dataTable({
+            "ajax": "{{ request.META.HTTP_NAME }}/api/getPricing",
+            "pageLength": 10,
+            "bDestroy": true,responsive: true,
+            language: { search: "",searchPlaceholder: "Search" },
+            aoColumns: [
+                {
+                    mData: 'client_id'
+                },
+                {
+                    mData: 'client_name',
+                    render: function ( data, type, row, meta ) {
+                        var clientName = row.client_name;
+                        var trim_name = clientName.substr(clientName.indexOf("(")+1, (clientName.indexOf(')')-clientName.indexOf("(")-1));
+                        if (trim_name != "")
+                            clientName = trim_name;
+                        return '<a href="{{ request.META.HTTP_NAME }}/clients/'+row.client_id+'">'+clientName+'</a>';
+                    }
+                },
+                {
+                    mData: 'sip',
+                    render:function(data, type, row, meta){
+                        return '$'+data;
+                    }
+                },
+                {
+                    mData: 'ddi',
+                    render:function(data, type, row, meta){
+                        return '$'+data;
+                    }
+                },
+                {
+                    mData: 'device',
+                    render:function(data, type, row, meta){
+                        return '$'+data;
+                    }
+                },
+                {
+                    mData: 'ext',
+                    render:function(data, type, row, meta){
+                        return '$'+data;
+                    }
+                },
+                {
+                    mData: 'intz1',
+                    render:function(data, type, row, meta){
+                        return '$'+data;
+                    }
+                },
+                {
+                    mData: 'wl_pricing_id',
+                    render:function(data, type, row, meta){
+                        return '<a href="{{ request.META.HTTP_NAME }}/pricingDetail/'+data+'" class="btn btn-xs btn-warning price-detail">View Detail</a>'
+                    }
+                }
+            ],
+
+            "columnDefs": [
+                {
+                    "title": "Client Id",
+                    "targets": 0
+                },
+
+                {
+                    "title": "Name",
+                    "targets": 1
+                },
+
+                {
+                    "title": "SIP Trunks",
+                    "targets": 2
+                },
+
+                {
+                    "title": "DDI's",
+                    "targets": 3
+                },
+
+                {
+                    "title": "Device",
+                    "targets": 4
+                },
+                {
+                    "title": "PBX Extensions",
+                    "targets":5
+                },
+
+                {
+                    "title": "Int Zone 1",
+                    "targets": 6
+                },
+
+                {
+                    "title": "Other",
+                    "targets": 7
+                }
+
+            ],
+        });
+    }
+
+    function getAllPhones(){
+        jQuery('#phonesTable').dataTable({
+            "ajax": "{{ request.META.HTTP_NAME }}/api/getPhones",
+            "pageLength": 10,
+            "bDestroy": true,responsive: true,
+            language: { search: "",searchPlaceholder: "Search" },
+            aoColumns: [
+                {
+                    mData: 'client_id'
+                },
+                {
+                    mData: 'client_name',
+                    render: function ( data, type, row, meta ) {
+                        var clientName = row.client_name;
+                        var trim_name = clientName.substr(clientName.indexOf("(")+1, (clientName.indexOf(')')-clientName.indexOf("(")-1));
+                        if (trim_name != "")
+                            clientName = trim_name;
+                        return '<a href="{{ request.META.HTTP_NAME }}/clients/'+row.client_id+'">'+clientName+'</a>';
+                    }
+                },
+                {
+                    mData: 'description'
+                },
+                {
+                    mData: 'calls'
+                },
+                {
+                    mData: 'local'
+                },
+                {
+                    mData: 'toll'
+                },
+                {
+                    mData: 'total'
+                }
+            ],
+
+            "columnDefs": [
+                {
+                    "title": "Id",
+                    "targets": 0
+                },
+
+                {
+                    "title": "Name",
+                    "targets": 1
+                },
+
+                {
+                    "title": "Description",
+                    "targets": 2
+                },
+
+                {
+                    "title": "Calls",
+                    "targets": 3
+                },
+
+                {
+                    "title": "Local",
+                    "targets": 4
+                },
+
+                {
+                    "title": "Toll",
+                    "targets": 5
+                },
+
+                {
+                    "title": "Total",
+                    "targets": 6
+                }
+
+            ],
+           "sDom": 'lfBrtip',
+            buttons: [
+                {
+                  text: 'Order New Services',
+                  action: function ( e, dt, node, config ) {
+                  }
+                }
+            ]
+        });
+    }
+    
+    function getAllTollFree(){
+        jQuery('#toll_freeTable').dataTable({
+            "ajax": "{{ request.META.HTTP_NAME }}/api/getTollsFree",
+            "pageLength": 10,
+            "bDestroy": true,responsive: true,
+            language: { search: "",searchPlaceholder: "Search" },
+            aoColumns: [
+                {
+                    mData: 'client_id'
+                },
+                {
+                    mData: 'client_name',
+                    render: function ( data, type, row, meta ) {
+                        var clientName = row.client_name;
+                        var trim_name = clientName.substr(clientName.indexOf("(")+1, (clientName.indexOf(')')-clientName.indexOf("(")-1));
+                        if (trim_name != "")
+                            clientName = trim_name;
+                        return '<a href="{{ request.META.HTTP_NAME }}/clients/'+row.client_id+'">'+clientName+'</a>';
+                    }
+                },
+                {
+                    mData: 'tf_num'
+                },
+                {
+                    mData: 'total_calls'
+                },
+                {
+                    mData: 'answer'
+                },
+                {
+                    mData: 'missed'
+                },
+                {
+                    mData: 'minutes'
+                },
+                {
+                    mData: 'total'
+                }
+            ],
+
+            "columnDefs": [
+                {
+                    "title": "Id",
+                    "targets": 0
+                },
+
+                {
+                    "title": "Name",
+                    "targets": 1
+                },
+
+                {
+                    "title": "Tollfree #",
+                    "targets": 2
+                },
+
+                {
+                    "title": "Total Calls",
+                    "targets": 3
+                },
+
+                {
+                    "title": "Answered",
+                    "targets": 4
+                },
+
+                {
+                    "title": "Missed",
+                    "targets": 5
+                },
+
+                {
+                    "title": "Minutes",
+                    "targets": 6
+                },
+
+                {
+                    "title": "Total",
+                    "targets": 7
+                }
+
+            ],
+           "sDom": 'lfBrtip',
+            buttons: [
+                {
+                  text: 'Order New Services',
+                  action: function ( e, dt, node, config ) {
+                  }
+                }
+            ]
+        });
+    }
+
+    function getAllStandCharges(){
+        jQuery('#st_chargesTable').dataTable({
+            "ajax": "{{ request.META.HTTP_NAME }}/api/getStCharges",
+            "pageLength": 10,
+            "bDestroy": true,responsive: true,
+            language: { search: "",searchPlaceholder: "Search" },
+            aoColumns: [
+                {
+                    mData: 'client_id'
+                },
+                {
+                    mData: 'client_name',
+                    render: function ( data, type, row, meta ) {
+                        var clientName = row.client_name;
+                        var trim_name = clientName.substr(clientName.indexOf("(")+1, (clientName.indexOf(')')-clientName.indexOf("(")-1));
+                        if (trim_name != "")
+                            clientName = trim_name;
+                        return '<a href="{{ request.META.HTTP_NAME }}/clients/'+row.client_id+'">'+clientName+'</a>';
+                    }
+                },
+                {
+                    mData: 'period'
+                },
+                {
+                    mData: 'description'
+                },
+                {
+                    mData: 'ws_price'
+                },
+                {
+                    mData: 'unit_price'
+                },
+                {
+                    mData: 'quantity'
+                },
+                {
+                    mData: 'total'
+                }
+            ],
+
+            "columnDefs": [
+                {
+                    "title": "Id",
+                    "targets": 0
+                },
+
+                {
+                    "title": "End Customer",
+                    "targets": 1
+                },
+
+                {
+                    "className": "none",
+                    "title": "Period",
+                    "targets": 2
+                },
+
+                {
+                    "title": "Description",
+                    "targets": 3
+                },
+                {
+                    "title": "Cost Price",
+                    "targets": 4
+                },
+
+                {
+                    "title": "Unit Price",
+                    "targets": 5
+                },
+
+                {
+                    "title": "Wl Quantity",
+                    "targets": 6
+                },
+                {
+                    "title": "Total",
+                    "targets": 7
+                }
+
+            ],
+           "sDom": 'lfBrtip',
+            buttons: [
+                {
+                  text: 'Order New Services',
+                  action: function ( e, dt, node, config ) {
+                  }
+                }
+            ]
+        });
+    }
+
+
+    function getFeeds1(){
+        jQuery('#feedsTable').dataTable({
+            "ajax": "{{ request.META.HTTP_NAME }}/api/getFeeds",
+            "pageLength": 10,
+            "bDestroy": true,responsive: true,
+            language: { search: "",searchPlaceholder: "Search" },
+            aoColumns: [
+                {
+                    mData: 'client_id'
+                },
+                {
+                    mData: 'client_name',
+                    render: function ( data, type, row, meta ) {
+                        var clientName = row.client_name;
+                        var trim_name = clientName.substr(clientName.indexOf("(")+1, (clientName.indexOf(')')-clientName.indexOf("(")-1));
+                        if (trim_name != "")
+                            clientName = trim_name;
+                        return '<a href="{{ request.META.HTTP_NAME }}/clients/'+row.client_id+'">'+clientName+'</a>';
+                    }
+                },
+                {
+                    mData: 'phone'
+                },
+                {
+                    mData: 'toll_free'
+                },
+                {
+                    mData: 'fax'
+                },
+                {
+                    mData: 'st_charges'
+                },
+                {
+                    mData: 'action',
+                    render:function(data, type, row, meta){
+                        return '<a class="btn btn-xs btn-warning">Calling</a>&nbsp;&nbsp;<a class="btn btn-xs btn-primary">Invoices</a>&nbsp;&nbsp;<a class="btn btn-xs btn-success">Wl Invoices</a>';
+                    }
+                }
+            ],
+
+            "columnDefs": [
+                {
+                    "title": "Client Id",
+                    "targets": 0
+                },
+
+                {
+                    "title": "Name",
+                    "targets": 1
+                },
+
+                {
+                    "title": "Calling",
+                    "targets": 2
+                },
+
+                {
+                    "title": "Toll Free",
+                    "targets": 3
+                },
+
+                {
+                    "title": "Fax",
+                    "targets": 4
+                },
+                {
+                    "title": "Standard Charges",
+                    "targets":5
+                },
+
+                {
+                    "title": "Download",
+                    "targets": 6
+                }
+
+            ],
+        });
+    }
+
+    function getFeeds(){
+        $.ajax({
+            url: '{{ request.META.HTTP_NAME }}/api/getFeeds',
+        }).done(function(response){
+            $('#feedsTable').find('tbody').html(response);
+        });   
+    }
+    // get more inovices of particular client
+
+    $(document).on('click','.show-more-inovices', function(e){
+        var ref = $(this);
+        var clientId = ref.attr('data-id');
+        $.ajax({
+            url: '{{ request.META.HTTP_NAME }}/api/getInvoices',
+            type: 'POST',
+            data: {
+                client_id:clientId
+            },
+            beforeSend:function(e){
+                ref.parents('tr').after('<tr class="sub-invoices" role="row"><td id="sub_invoices" class="text-center" colspan="7"><i class="fa fa-spinner fa-spin"></i></td></tr>');
+                ref.addClass('show-less-invoices').removeClass('show-more-inovices');
+                ref.html('<i class="fa fa-angle-up"></i> Less');
+            }
+        }).done(function(response){
+            ref.parents('tr').next('.sub-invoices').find('#sub_invoices').html(response);
+        });   
+      })
+
+
+    $(document).on('click','.show-less-invoices', function(e){
+        $(this).removeClass('show-less-invoices').addClass('show-more-inovices');
+        $(this).html('<i class="fa fa-angle-down"></i> More');
+        $(this).parents('tr').next('.sub-invoices').remove();
+    })
+
+
+    
+    $(document).on('click','.update-btn', function(e){
+        $('.update-pricing').submit();
+    })
+    // save pricing
+    $(document).on('submit','.update-pricing',function(e){
+        e.preventDefault();
+        var form=$(this);
+        $.ajax({
+          type: "POST",
+          url: form.attr( 'action' ),
+          // data: form.serialize(),
+          data:  new FormData(this),
+          contentType: false,
+          cache: false, 
+          processData:false,
+          beforeSend:function(){
+            $('.update-btn').html('Saving <i class="fa fa-spinner fa-spin"></i>');
+          },
+          success: function( data ) {
+            $('.alert').addClass('alert-success').html('Prices Successfully Updated').show().delay( 5000 ).fadeOut();
+            $('.update-btn').html('Update');
+          },
+          error:function(){
+
+          }
+      });
+    })
+
+   
+</script>
+
+{% endblock %}
+

@@ -1,0 +1,30 @@
+<table style="width:100%">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Invoice No.</th>
+			<th>Date</th>
+			<th>Net Amt</th>
+			<th>Gst Amt</th>
+			<th>Gross Amt</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% if aaData %}
+  		{% for client in aaData %}
+			<tr>
+				<td>{{ client.client_id }}</td>
+				<td>{{ client.client_name }}</td>
+				<td>{{ client.invoice_number }}</td>
+				<td>{{ client.invoice_date }}</td>
+				<td>{{ client.invoice_net_amount }}</td>
+				<td>{{ client.invoice_gst_amount }}</td>
+				<td>{{ client.invoice_gross_amount }}</td>
+			</tr>
+  		{% endfor %}
+  	{% else %}
+  		<tr>No Record Found</tr>
+    {% endif %}
+	</tbody>
+</table>

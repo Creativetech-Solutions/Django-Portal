@@ -1,0 +1,64 @@
+
+        <form method="POST" action="/client/createPhone/{{ phone.client_id}}" class="col-xs-12">
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Phone:</div>
+                  <div class="col-xs-12">
+                    <input type="text" name="calling_number" class="form-control" value="{{ phone.calling_number}}" >
+                  </div>
+            </div>
+           <input type="hidden" name="client_to_phone_id" class="form-control" value="{{ phone.client_to_phone_id}}" >
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Linked To:</div>
+                  <div class="col-xs-12">
+                    <input type="text" name="linked_to_number" class ="form-control" value="{{ phone.linked_to_number}}" >
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Line Rent:</div>
+                  <div class="col-xs-12">
+                    <input type="text" name="client_line_rent" class="form-control" value="{{ phone.client_line_rent}}" >
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Home Area:</div>
+                  <div class="col-xs-12">
+                    <select class="select2 form-control" style="width:100%" data-id="{{phone.national_area_name_id}}" name="national_area_name_id"></select>
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Activation Date:</div>
+                  <div class="col-xs-12">
+                    <input type="text" name="activated_date" class ="form-control daterangepicker" value="{{ phone.activated_date}}" >
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Line Type:</div>
+                  <div class="col-xs-12">
+                    <select class="select2 form-control" style="width:100%" data-id="{{phone.line_type_id}}" name="line_type_id"></select>
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Mobile Owner:</div>
+                  <div class="col-xs-12">
+                    <input type="text" name="mobile_owners_name" class ="form-control" value="{{ phone.mobile_owners_name}}" >
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Mobile Plan:</div>
+                  <div class="col-xs-12">
+                    <select class="select2 form-control" style="width:100%" data-id="{{phone.mobile_plan_id}}" name="mobile_plan_id"></select>
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Mobile Group Plan:</div>
+                  <div class="col-xs-12">
+                    <select class="select2 form-control" style="width:100%" data-id="{{phone.mobile_group_plan_id}}" name="mobile_group_plan_id"></select>
+                  </div>
+            </div>
+           <div class="col-xs-12">
+                  <div class="col-xs-12">Description:</div>
+                  <div class="col-xs-12">
+                    <textarea class="form-control" name="description"  rows="2" >{{ phone.description}}</textarea>
+                  </div>
+            </div>
+          </form>

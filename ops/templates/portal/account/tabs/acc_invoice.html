@@ -1,0 +1,21 @@
+<table style="width:100%" class="text-right">
+{% if data.isSuccess == True %}
+	{% if data.data.invoices %}
+		{% for invoice in data.data.invoices %}
+			<tr><th>Client Id</th><th class="client_id"></th></tr>
+			<tr><td class="text-right">Date</td><td class="text-left">{{invoice.invoice_date}}</td></tr>
+			<tr><td>Invoice #</td><td>{{invoice.invoice_number}}</td></tr>
+			<tr><td>Tolls</td><td>$ {{invoice.toll_traffic_amount}}</td></tr>
+			<tr><td>Local</td><td>$ {{invoice.local_traffic_amount}}</td></tr>
+			<tr><td>Faxes</td><td>$ {{invoice.fax_traffic_amount}}</td></tr>
+			<tr><td>Standing</td><td>$ {{invoice.standing_charges_amount}}</td></tr>
+			<tr><td>Other</td><td>$ {{invoice.other_charges_amount}}</td></tr>
+			<tr><td style="border-bottom:none">Net</td><td style="border-bottom:none">$ {{invoice.invoice_net_amount}}</td></tr>
+			<tr><td style="border-top:none">GST</td><td style="border-top:none">$ {{invoice.invoice_gst_amount}}</td></tr>
+			<tr><td>Gross</td><td>$ {{invoice.invoice_gross_amount}}</td></tr>
+		{% endfor %}
+	{% else %}
+			<tr><td>No Record Found</td></tr>
+	{% endif %}
+{% endif %}
+</table>

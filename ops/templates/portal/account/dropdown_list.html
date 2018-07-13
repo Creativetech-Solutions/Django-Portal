@@ -1,0 +1,75 @@
+ {% if data.isSuccess == True %}
+
+	{% if data.data.business_types %}
+ 		{% for type in data.data.business_types %}
+			<option value="{{ type.business_type_id}}">{{ type.type_description}}</option>
+		{% endfor %}
+
+	{% elif data.data.area_names %}
+ 		{% for area in data.data.area_names %}
+			<option value="{{ area.national_area_name_id}}">{{ area.area_name}}</option>
+		{% endfor %}
+
+	{% elif data.data.industries %}
+ 		{% for industry in data.data.industries %}
+			<option value="{{ industry.prospect_industries_id}}">{{ industry.prospect_industries}}</option>
+		{% endfor %}
+
+	{% elif data.data.countries %}
+ 		{% for country in data.data.countries %}
+			<option value="{{ country.country_id}}">{{ country.country}}</option>
+		{% endfor %}
+
+	{% elif data.data.paymentOptions %}
+ 		{% for paymentOpt in data.data.paymentOptions %}
+			<option value="{{ paymentOpt.id}}">{{ paymentOpt.name}}</option>
+		{% endfor %}
+
+	{% elif data.data.staffs %}
+ 		{% for staff in data.data.staffs %}
+			<option value="{{ staff.staff_and_agents_id}}">{{ staff.staff_agent_name}}</option>
+		{% endfor %}
+
+	{% elif data.data.company_positions %}
+ 		{% for position in data.data.company_positions %}
+			<option value="{{ position.position_id}}">{{ position.position_description}}</option>
+		{% endfor %}
+
+	{% elif data.data.line_types %}
+ 		{% for line_type in data.data.line_types %}
+			<option value="{{ line_type.line_type_id}}">{{ line_type.line_type_description }}</option>
+		{% endfor %}
+
+	{% elif data.data.mobile_plans %}
+ 		{% for plan in data.data.mobile_plans %}
+			<option value="{{ plan.mobile_plan_id}}">{{ plan.mobile_plan_name }}</option>
+		{% endfor %}
+
+	{% elif data.data.mobile_group_plans %}
+ 		{% for plan in data.data.mobile_group_plans %}
+			<option value="{{ plan.mobile_group_plan_id}}">{{ plan.plan_name }}</option>
+		{% endfor %}
+
+	{% elif data.data.toll_free %}
+ 		{% for toll in data.data.toll_free %}
+			<option value="{{ toll.client_toll_free_id}}">{{ toll.toll_free_number }}</option>
+		{% endfor %}
+
+	{% elif data.data.client_phones %}
+ 		{% for phone in data.data.client_phones %}
+			<option value="{{ phone.client_to_phone_id}}">{{ phone.calling_number }}</option>
+		{% endfor %}
+
+	{% elif data.data.providers %}
+ 		{% for provider in data.data.providers %}
+			<option value="{{ provider.provider_id }}">{{ provider.provider_name }}</option>
+		{% endfor %}
+
+	{% elif data.data.rate_plans %}
+ 		{% for plan in data.data.rate_plans %}
+			<option value="{{ plan.id }}">{{ plan.name }}</option>
+		{% endfor %}
+
+    {% endif %}
+
+{% endif %} 

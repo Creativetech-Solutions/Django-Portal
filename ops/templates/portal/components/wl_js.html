@@ -1,0 +1,334 @@
+<script>
+	$(document).ready(function(e){
+		getContacts();
+        getAllWLInvoices();
+	})
+
+    function getAllClients() {
+        jQuery('#accountsTable').dataTable({
+            "ajax": "{{ request.META.HTTP_NAME }}/api/getAllClients",
+            "pageLength": 10,
+            "bDestroy": true,responsive: true,
+            language: { search: "",searchPlaceholder: "Search" },
+            aoColumns: [
+                {
+                    mData: 'client_id'
+                },
+                {
+                    mData: 'wl_client_id'
+                },
+                {
+                    mData: 'client_name',
+                    render: function ( data, type, row, meta ) {
+                        var clientName = row.client_name;
+                        var trim_name = clientName.substr(clientName.indexOf("(")+1, (clientName.indexOf(')')-clientName.indexOf("(")-1));
+                        if (trim_name != "")
+                            clientName = trim_name;
+
+                        return '<a href="{{ request.META.HTTP_NAME }}/clients/'+row.client_id+'">'+clientName+'</a>';
+                    }
+                },
+                {
+                    mData: 'client_email'
+                },
+                {
+                    mData: 'client_phone_number'
+                }
+            ],
+
+            "columnDefs": [
+                {
+                    "title": "Id",
+                    "targets": 0
+                },
+
+                {
+                    "title": "Wl_Client_Id",
+                    "targets": 1
+                },
+                {
+                    "title": "Name",
+                    "targets": 2
+                },
+
+                {
+                    "title": "Email",
+                    "targets": 3
+                },
+
+                {
+                    "title": "Phone No",
+                    "targets": 4
+                }
+
+            ],
+           "sDom": 'lfBrtip',
+            buttons: [
+                {
+                  text: 'Create a New Account',
+                  action: function ( e, dt, node, config ) {
+                    $('.create-acc-modal').modal('show');
+                  }
+                }
+            ]
+        });
+    }
+
+
+    function getContacts(){
+        jQuery('#contactsTable').dataTable({
+            "ajax": "{{ request.META.HTTP_NAME }}/api/getContacts",
+            "pageLength": 10,
+            "bDestroy": true,responsive: true,
+            language: { search: "",searchPlaceholder: "Search" },
+            aoColumns: [
+                {
+                    mData: 'client_id'
+                },
+                {
+                    mData: 'wl_client_id'
+                },
+                {
+                    mData: 'client_name',
+                    render: function ( data, type, row, meta ) {
+                        var clientName = row.client_name;
+                        var trim_name = clientName.substr(clientName.indexOf("(")+1, (clientName.indexOf(')')-clientName.indexOf("(")-1));
+                        if (trim_name != "")
+                            clientName = trim_name;
+                        
+                        return '<a href="{{ request.META.HTTP_NAME }}/clients/'+row.client_id+'">'+clientName+'</a>';
+
+                        //+'<a data-id="'+row.client_id+'" class="btn btn-warning btn-xs pull-right show-contact-details"><i class="fa fa-angle-down"></i> More</a>'
+                    }
+                },
+                {
+                    mData: 'physical_address_1'
+                },
+                {
+                    mData: 'client_phone_number'
+                },
+                {
+                    mData: 'client_phone_number2'
+                },
+                {
+                    mData: 'physical_address_2'
+                },
+                {
+                    mData: 'postal_address_1'
+                },
+                {
+                    mData: 'postal_address_2'
+                },
+                {
+                    mData: 'postal_address_3'
+                }
+            ],
+
+            "columnDefs": [
+                {
+                    "title": "Id",
+                    "targets": 0
+                },
+
+                {
+                    "title": "Wl_Client_Id",
+                    "targets": 1
+                },
+                {
+                    "title": "Name",
+                    "targets": 2
+                },
+
+                {
+                    "title": "Address",
+                    "targets": 3
+                },
+
+                {
+                    "title": "Phone",
+                    "targets": 4
+                },
+
+                {
+                    "className": "none",
+                    "title": "Phone 2 : ",
+                    "targets": 5
+                },
+
+                {
+                    "className": "none",
+                    "title": "Address 2 : ",
+                    "targets": 6
+                },
+
+                {
+                    "className": "none",
+                    "title": "Postal Address 1 : ",
+                    "targets": 7
+                },
+
+                {
+                    "className": "none",
+                    "title": "Postal Address 1 : ",
+                    "targets": 8
+                },
+
+                {
+                    "className": "none",
+                    "title": "Postal Address 3 : ",
+                    "targets": 9
+                }
+
+            ],
+        });
+    }
+
+
+    function getAllWLInvoices(){
+        jQuery('#wl_invoicesTable').dataTable({
+            "ajax": "{{ request.META.HTTP_NAME }}/api/getWLInvoices",
+            "pageLength": 10,
+            "bDestroy": true,responsive: true,
+            language: { search: "",searchPlaceholder: "Search" },
+            aoColumns: [
+                {
+                    mData: 'client_id'
+                },
+                {
+                    mData: 'client_name',
+                    render: function ( data, type, row, meta ) {
+                        var clientName = row.client_name;
+                        var trim_name = clientName.substr(clientName.indexOf("(")+1, (clientName.indexOf(')')-clientName.indexOf("(")-1));
+                        if (trim_name != "")
+                            clientName = trim_name;
+
+                        return '<a href="{{ request.META.HTTP_NAME }}/clients/'+row.client_id+'">'+clientName+'</a>'+'<a data-id="'+row.client_id+'" class="btn btn-warning btn-xs pull-right show-more-inovices_wl"><i class="fa fa-angle-down"></i> More</a>';
+                    }
+                },
+                {
+                    mData: 'invoice_number'
+                },
+                {
+                    mData: 'invoice_date'
+                },
+                {
+                    mData: 'invoice_net_amount'
+                },
+                {
+                    mData: 'invoice_gst_amount'
+                },
+                {
+                    mData: 'invoice_gross_amount'
+                }
+            ],
+
+            "columnDefs": [
+                {
+                    "title": "Id",
+                    "targets": 0
+                },
+
+                {
+                    "title": "Name",
+                    "targets": 1
+                },
+
+                {
+                    "title": "Invoice No.",
+                    "targets": 2
+                },
+
+                {
+                    "title": "Date",
+                    "targets": 3
+                },
+
+                {
+                    "title": "Net Amt",
+                    "targets": 4
+                },
+
+                {
+                    "title": "Gst Amt",
+                    "targets": 5
+                },
+
+                {
+                    "title": "Gross Amt",
+                    "targets": 6
+                }
+
+            ],
+        });
+    }
+
+  $(document).on('click','.show-contact-details', function(e){
+        var ref = $(this);
+        var clientId = ref.attr('data-id');
+        $.ajax({
+            url: '{{ request.META.HTTP_NAME }}/api/getContactDetail',
+            type: 'POST',
+            data: {
+                client_id:clientId
+            },
+            beforeSend:function(e){
+                ref.parents('tr').after('<tr class="contact-detail" role="row"><td id="contact-det" class="text-center" colspan="7"><i class="fa fa-spinner fa-spin"></i></td></tr>');
+                ref.addClass('hide-contact-details').removeClass('show-contact-details');
+                ref.html('<i class="fa fa-angle-up"></i> Less');
+            }
+        }).done(function(response){
+            response = JSON.parse(response);
+            var $html = "<table style='width:100%'><thead>"+
+                            "<tr>"+
+                                "<th>Id</th>"+
+                                "<th>Phone 2</th>"+
+                                "<th>Address 2</th>"+
+                                "<th>Postal Address 1</th>"+
+                                "<th>Postal Address 2</th>"+
+                                "<th>Postal Address 3</th>"+
+                            "</tr>"+
+                            "</thead>"+
+                            "<tbody>"+
+                                    "<tr>"+
+                                        "<td>"+response['aaData']['client_id']+"</td>"+
+                                        "<td>"+response['aaData']['client_phone_number2']+"</td>"+
+                                        "<td>"+response['aaData']['physical_address_2']+"</td>"+
+                                        "<td>"+response['aaData']['postal_address_1']+"</td>"+
+                                        "<td>"+response['aaData']['postal_address_2']+"</td>"+
+                                        "<td>"+response['aaData']['postal_address_3']+"</td>"+
+                                    "</tr>"+
+                            "</tbody>"+
+                        "</table>";
+            ref.parents('tr').next('.contact-detail').find('#contact-det').html($html);
+        });   
+      })
+
+
+    $(document).on('click','.hide-contact-details', function(e){
+        $(this).removeClass('hide-contact-details').addClass('show-contact-details');
+        $(this).html('<i class="fa fa-angle-down"></i> More');
+        $(this).parents('tr').next('.contact-detail').remove();
+    })
+
+      // get more inovices of particular client
+
+    $(document).on('click','.show-more-inovices_wl', function(e){
+        var ref = $(this);
+        var clientId = ref.attr('data-id');
+        $.ajax({
+            url: '{{ request.META.HTTP_NAME }}/api/getWLInvoices',
+            type: 'POST',
+            data: {
+                client_id:clientId
+            },
+            beforeSend:function(e){
+                ref.parents('tr').after('<tr class="sub-invoices_wl" role="row"><td id="sub_invoices" class="text-center" colspan="7"><i class="fa fa-spinner fa-spin"></i></td></tr>');
+                ref.addClass('show-less-invoices').removeClass('show-more-inovices_wl');
+                ref.html('<i class="fa fa-angle-up"></i> Less');
+            }
+        }).done(function(response){
+            ref.parents('tr').next('.sub-invoices_wl').find('#sub_invoices').html(response);
+        });   
+      })
+
+</script>

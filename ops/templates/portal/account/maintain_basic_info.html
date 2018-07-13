@@ -1,0 +1,144 @@
+{% load define_action %}
+
+<style>
+    span.select2-selection{border-radius: 4px!important; height: 34px!important; padding-top: 2px;}
+    .panel.Direct-bg{border-color:#8a4512;}
+    /*.panel.Wholesale-bg{border-color:#9e9900;}*/
+    .panel.Whitelabel-bg,.panel.Wholesale-bg{border-color:#2f5596;}
+    .panel.Direct-bg .panel-heading{background-color:#8a4512;}
+    /*.panel.Wholesale-bg .panel-heading{background-color:#9e9900;}*/
+    .panel.Whitelabel-bg .panel-heading, .panel.Wholesale-bg .panel-heading{background-color:#2f5596;}
+    .panel-default:not(.-bg) .panel-heading{color:white!important;}
+    .panel-default:not(.-bg) .panel-heading a {color:white!important;}
+    .pad-10{padding:0 10px!important;}
+    .rating-box{height: 44px; width: 64px; border-radius: 6px; margin-right: 5px; position: relative; top: 3px;border:1px solid black;}
+    /*.rating-box.rat-Z{ background-color: #2190d2;color: white; }*/
+    .rating-box.rat-C{ background-color: yellow;color:black;}
+    .rating-box.rat-B{ background-color: orange /*#ffa500;*/}
+    .rating-box.rat-A{ background-color: green;/*#ff2626;*/}
+    .rating-box.rat-{    background-color: white}
+    .acc-info-panel input[readonly]{background-color: white}
+    .acccount-info .panel-heading{padding: 0 10px; min-height: 50px;}
+    .acccount-info .panel-heading strong.title{ top: 9px; position: relative;font-size: 18px}
+    .acccount-info .panel-heading a.edit-client{font-weight: bold; min-height: 43px; font-size: 16px; padding: 9px;    top: 3px; position: relative;}
+    .rating-box span{font-size: 24px; bottom: 7px; position: relative;font-weight: bold}
+</style>
+<div class="panel panel-default {{data.data.clients.type}}-bg">
+    <div class="panel-heading">
+    	<strong class="title">{{ data.data.clients.client_id}} | {{ data.data.clients.client_name}}</strong>
+    	<!-- <a class="btn pull-right acc-info-colapse-invokr" data-toggle="collapse" href=".acc-info-panel" aria-expanded="false" title="Hide Info">
+			<i class="fa fa-minus"></i>
+			</a> -->
+
+		<a class="btn btn-danger pull-right edit-client" data-target=".cl-edit-modal" data-toggle="modal">Edit Client</a>
+		<div class="pull-right">
+        	<div class="rating-box text-center rat-{{data.data.clients.client_rating|noneCheck}}">
+        		{% if data.data.clients.client_rating == 'Z' %}
+				<div>No Rating</div>
+				{% else %}
+				<div>Rating</div>
+				<span>{{data.data.clients.client_rating|noneCheck}}</span>
+				{% endif %}
+			</div>
+        </div>
+    </div>
+    <div class="panel-body acc-info-panel collapse show">
+		<div class="col-xs-12 col-sm-6 col-md-4">
+	        <div class="form-group col-xs-12">
+	            	<strong class="col-xs-5 text-right">ID: </strong>
+	            	<span class="col-xs-7 text-left">{{data.data.clients.client_id}}</span>
+	        </div>
+
+	        <div class="form-group col-xs-12">
+            	<strong class="col-xs-5 text-right">Customer:</strong>
+            	<span class="col-xs-7 text-left">{{data.data.clients.client_name|noneCheck}}</span>
+	        </div>
+	        <div class="form-group col-xs-12">
+            	<strong class="col-xs-5 text-right">Trading As:</strong>
+            	<span class="col-xs-7 text-left">{{data.data.clients.trading_as|noneCheck}}</span>
+	        </div>
+	        <div class="form-group col-xs-12">
+            	<strong class="col-xs-5 text-right">Default Phone:</strong>
+            	<span class="col-xs-7 text-left">{{data.data.clients.security_question|noneCheck}}</span>
+	        </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-2">
+			<div class="col-xs-12"><strong>Postal Address</strong></div>
+	        <div class="form-group col-xs-12">
+            	<span>{{data.data.clients.postal_address_1|noneCheck}}</span>
+	        </div>
+	        <div class="form-group col-xs-12">
+            	<span>{{data.data.clients.postal_address_2|noneCheck}}</span>
+	        </div>
+	        <div class="form-group col-xs-12">
+            	<span>{{data.data.clients.postal_address_3|noneCheck}}</span>
+	        </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-2">
+			<div class="col-xs-12"><strong>Physical Address</strong></div>
+	        <div class="form-group col-xs-12">
+            	<span>{{data.data.clients.physical_address_1|noneCheck}}</span>
+	        </div>
+	        <div class="form-group col-xs-12">
+            	<span>{{data.data.clients.physical_address_2|noneCheck}}</span>
+	        </div>
+	        <div class="form-group col-xs-12">
+            	<span>{{data.data.clients.area|noneCheck}}</span>
+	        </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+	        <div class="form-group col-xs-12">
+            	<strong class="col-xs-6 text-right">International:</strong>
+            	<span class="col-xs-6 text-left">
+					{% for plan in data.rate_plans.international %}
+						{% if plan.id == data.data.clients.international_rate_plan %}
+							{{ plan.name }}
+						{% endif %}
+					{% endfor %}
+				</span>
+	        </div>
+	        <div class="form-group col-xs-12 ">
+            	<strong class="col-xs-6 text-right">National:</strong>
+            	<span class="col-xs-6 text-left">
+					{% for plan in data.rate_plans.national %}
+						{% if plan.id == data.data.clients.national_rate_plan %}
+							{{plan.name}}
+						{% endif %}
+					{% endfor %}
+            </div>
+	        <div class="form-group col-xs-12 ">
+            	<strong class="col-xs-6 text-right">Bill Email:</strong>
+            	<span class="col-xs-6 text-left">{{data.data.clients.client_email|noneCheck}}</span>
+	        </div>
+	        <div class="form-group col-xs-12">
+            	<strong class="col-xs-6 text-right">Sales Agent:</strong>
+            	<span class="col-xs-6 text-left">{{data.data.clients.staff_agent_name|noneCheck}}</span>
+	        </div>
+        </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+	$('.acc-info-panel').on('hidden.bs.collapse', function () {
+		$('.acc-info-colapse-invokr').html('<i class="fa fa-plus"></i>');
+	})
+	$('.acc-info-panel').on('shown.bs.collapse', function () {
+		$('.acc-info-colapse-invokr').html('<i class="fa fa-minus"></i>');
+	})
+    $.ajax({
+      url: "{{request.META.HTTP_NAME }}/payment/getPaymentOptions",
+      success: function( data ) {
+        	$('select[name="payment_option"]').html(data);
+        	$('.placeholders .paymentOptions').html(data);
+            $('select[name="payment_option"]').val('{{data.data.clients.payment_option}}').trigger('change.select2');
+        }
+    }) 
+    $.ajax({
+      url: "{{request.META.HTTP_NAME }}/staff/getAllStaffs",
+      success: function( data ) {
+        $('.placeholders .staffs').html(data);
+        $('select[name="staff_and_agents_id"]').html(data);
+            $('select[name="staff_and_agents_id"]').val('{{data.data.clients.staff_and_agents_id}}').trigger('change.select2');
+        }
+    })
+</script>

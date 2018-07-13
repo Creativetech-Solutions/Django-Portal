@@ -1,0 +1,69 @@
+{% extends "portal/base.html" %}
+{% block content %}
+<style>
+    .menus-inner-wrap .btn{background-color: #7f7d7d; border-color: #7f7d7d;color:white;}
+    .menus-inner-wrap .btn:hover{background-color: #ee911f; border-color: #ee911f;}
+    .menu-btn{padding: 12px;}
+    .input-group .btn {height: 34px;}
+    .controls input[type="checkbox"]{height: 14px; width: 14px; float: right;}
+    .acc-info-panel div {padding:0 }
+    .acc-info-panel .form-group {margin-bottom:5px }
+     .acccount-info-tabs{background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(243,246,248,1) 100%);}
+    .actions-wrap .btn{ width: 130px;margin: 2px 0px;white-space:normal;}
+    .nav.nav-tabs{background-color: #5a5a5b; border-radius: 5px;}
+    .nav.nav-tabs li a{color: white;}
+    .nav-tabs li .active.show, .nav>li>a:focus, .nav>li>a:hover{color:black;background-color:#ddd;}
+    .dt-button{background-color: white; border: 3px; font-size: 16px; border-style: outset;}
+    .modal-header {    background: #337ab7;color:white;}
+    @media only screen and (min-width: 1200px) {
+        .acccount-info-tabs .left-wrap {width:88%;}
+        .acccount-info-tabs .right-wrap {width:12%;padding: 0;}
+    }
+</style>
+
+<div class="row" style="background-color: #f1f1f1;">
+    <div class="content-wrap col-xs-12">
+    	<div class="col-xs-12 acccount-info">
+	       {% include "portal/partner_account/maintain_partner_info.html" %}
+	    </div>
+      <div class="col-xs-12 staff-customers">
+          <div class="col-xs-12 left-wrap" style="background-color: #dddddd;min-height: 590px;">
+              <div id="home" class="tab-pane fade in active col-xs-12 ">
+                  {% include "portal/partner_account/customers.html" %}
+              </div>
+          </div>
+      </div>
+  	</div>
+</div>
+
+
+
+<script>
+    $(document).on('submit','.edit-partner', function(e){
+        e.preventDefault();
+            var form=$(this);
+            $.ajax({
+              type: "POST",
+              url: form.attr( 'action' ),
+              // data: form.serialize(),
+              data:  new FormData(this),
+              contentType: false,
+              cache: false, 
+              processData:false,
+              beforeSend:function(){
+                form.find('button[type="submit"]').html('Editing <i class="fa fa-spinner fa-spin"></i>');
+              },
+              success: function( data ) {
+                form.find('button[type="submit"]').html('Edit');
+                var data = JSON.parse(data);
+                notify(data['message'], data['alert']);
+              },
+              error:function(){
+
+              }
+            });
+      })
+    // get customers 
+    getCustomers();
+</script>
+{% endblock %}

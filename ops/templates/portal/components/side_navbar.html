@@ -1,0 +1,264 @@
+{% load staticfiles %}  
+{% load define_action %}
+
+<style>
+    body {
+    position: relative;
+    overflow-x: hidden;
+}
+body,
+html { height: 100%;}
+.nav .open > a, 
+.nav .open > a:hover, 
+.nav .open > a:focus {background-color: transparent;}
+
+/*-------------------------------*/
+/*           Wrappers            */
+/*-------------------------------*/
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled {
+    padding-left: 17%;
+}
+
+#sidebar-wrapper {
+    z-index: 1000;
+    left: 17%;
+    width: 0;
+    height: 100%;
+    margin-left: -17%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #5a5a5b;
+}
+#sidebar-wrapper, .wrapper{
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#sidebar-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    width: 17%;
+}
+
+
+
+/*-------------------------------*/
+/*     Sidebar nav styles        */
+/*-------------------------------*/
+
+.sidebar-nav {    position: absolute;
+    top: 59px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-nav li , .sidebar-brand{
+    position: relative; 
+    line-height: 20px;
+    display: inline-block;
+    width: 100%;
+}
+
+.sidebar-nav li:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    height: 100%;
+    width: 3px;
+    background-color: rgb(51, 51, 51);
+    -webkit-transition: width .2s ease-in;
+      -moz-transition:  width .2s ease-in;
+       -ms-transition:  width .2s ease-in;
+            transition: width .2s ease-in;
+
+}
+
+
+.sidebar-nav li:before {
+    background-color: rgb(0, 84, 84);;   
+}
+.sidebar-nav li:hover:before,
+.sidebar-nav li.open:hover:before {
+    width: 100%;
+    -webkit-transition: width .2s ease-in;
+      -moz-transition:  width .2s ease-in;
+       -ms-transition:  width .2s ease-in;
+            transition: width .2s ease-in;
+
+}
+
+.sidebar-nav li a, .sidebar-brand {
+    display: block;    color: white;
+    text-decoration: none;
+    padding: 10px 15px 10px 30px;    
+}
+.sidebar-nav li a.active{background-color:white;color:black;}
+
+.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 20px;
+    line-height: 44px;
+}
+.sidebar-nav .dropdown-menu {
+    position: relative;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    border: none;
+    background-color: #222;
+    box-shadow: none;
+}
+
+/*-------------------------------*/
+/*       Menu-toggle             */
+/*-------------------------------*/
+.animate {
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.navbar-toggler {position: fixed;
+    width: 42px; height: 37px; right: 15px; left: 11px; top: 11px; background-color: rgb(51, 51, 51); z-index: 1001; border-radius: 4px; cursor: pointer;
+}
+
+.navbar-toggler:hover {
+    background-color: rgb(0, 84, 84);
+}
+
+.navbar-toggler > span {
+    position: absolute;
+    top: 50%; 
+    right: 50%;
+    margin: -8px -8px 0 0;
+    width: 16px;
+    height: 16px;
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE2LjIuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHdpZHRoPSIxNnB4IiBoZWlnaHQ9IjMycHgiIHZpZXdCb3g9IjAgMCAxNiAzMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMTYgMzIiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZmlsbD0iI0ZGRkZGRiIgZD0iTTEsN2gxNGMwLjU1MiwwLDEsMC40NDgsMSwxcy0wLjQ0OCwxLTEsMUgxQzAuNDQ4LDksMCw4LjU1MiwwLDgKCVMwLjQ0OCw3LDEsN3oiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9IiNGRkZGRkYiIGQ9Ik0xLDEyaDE0YzAuNTUyLDAsMSwwLjQ0OCwxLDFzLTAuNDQ4LDEtMSwxSDFjLTAuNTUyLDAtMS0wLjQ0OC0xLTEKCVMwLjQ0OCwxMiwxLDEyeiIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZmlsbD0iI0ZGRkZGRiIgZD0iTTEsMmgxNGMwLjU1MiwwLDEsMC40NDgsMSwxcy0wLjQ0OCwxLTEsMUgxQzAuNDQ4LDQsMCwzLjU1MiwwLDMKCVMwLjQ0OCwyLDEsMnoiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9IiNGRkZGRkYiIGQ9Ik0xLjMzLDI4Ljk3bDExLjY0LTExLjY0YzAuNDU5LTAuNDU5LDEuMjA0LTAuNDU5LDEuNjYzLDAKCWMwLjQ1OSwwLjQ1OSwwLjQ1OSwxLjIwNCwwLDEuNjYzTDIuOTkzLDMwLjYzM2MtMC40NTksMC40NTktMS4yMDQsMC40NTktMS42NjMsMEMwLjg3MSwzMC4xNzQsMC44NzEsMjkuNDMsMS4zMywyOC45N3oiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9IiNGRkZGRkYiIGQ9Ik0yLjk5MywxNy4zM2wxMS42NDEsMTEuNjRjMC40NTksMC40NTksMC40NTksMS4yMDQsMCwxLjY2MwoJcy0xLjIwNCwwLjQ1OS0xLjY2MywwTDEuMzMsMTguOTkzYy0wLjQ1OS0wLjQ1OS0wLjQ1OS0xLjIwNCwwLTEuNjYzQzEuNzg5LDE2Ljg3MSwyLjUzNCwxNi44NzEsMi45OTMsMTcuMzN6Ii8+Cjwvc3ZnPgo=);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    -webkit-transition: -webkit-transform .3s ease-out 0s;
+    -moz-transition: -moz-transform .3s ease-out 0s;
+    -o-transition: -moz-transform .3s ease-out 0s;
+    -ms-transition: -ms-transform .3s ease-out 0s;
+    transition: transform .3s ease-out 0s;
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+
+/*.navbar-toggler.open > span {
+    background-position: 0 -16px;
+    -webkit-transform: rotate(-180deg);
+    -moz-transform: rotate(-180deg);
+    -o-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    transform: rotate(-180deg);
+}*/
+li a.side-nav-head {padding-left: 35px;
+}
+.side-nav-head img{    width: 136px; margin-top: 9px;}
+li.sidebar-brand{ height: 58px; z-index: 1; background-color: white;        }
+.sidebar-brand.static{width: 17%; position: fixed; }
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 992px) {
+        #wrapper.toggled {padding-left: 22%; }
+        #sidebar-wrapper {z-index: 1000; left: 22%; margin-left: -22%; }
+        #wrapper.toggled #sidebar-wrapper {width: 22%; }
+        .wrapper.shrink{width:78%;}
+}
+@media only screen and (min-device-width: 480px) and (max-device-width: 768px) {
+        #wrapper.toggled {padding-left: 34%; }
+        #sidebar-wrapper {z-index: 1000; left: 34%; margin-left: -34%; }
+        #wrapper.toggled #sidebar-wrapper {width: 34%; }
+        .wrapper.shrink{width:66%;}
+}
+</style>
+    
+    <div id="wrapper" class="toggled ">
+            <!-- Sidebar -->
+            <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+                
+            <li class="sidebar-brand">
+                <a href="#" class="side-nav-head">
+                    <div class="navbar-toggler animate" data-toggle="offcanvas">
+                        <span class="menu-icon"></span>
+                    </div>
+                    <img src="{% static 'portal/images/UFONE-Logo-Art.svg' %}"></img>
+                </a>
+            </li>
+            <ul class="nav sidebar-nav">
+                    <li class="dropdown">
+                      <a href="{{ request.META.HTTP_NAME }}/account/create" class="dropdown-toggle {{request|active_route:'account/create'}}" data-toggle="dropdown">Create Account</a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="{{ request.META.HTTP_NAME }}/account/maintain/608" class="dropdown-toggle {{request|active_route:'account/maintain'}}" data-toggle="dropdown">Maintain Account</a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="{{ request.META.HTTP_NAME }}/partner/maintain/{{user_data.staff_and_agents_id}}" class="dropdown-toggle {{request|active_route:'partner/maintain'}}" data-toggle="dropdown">Maintain Partner</a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle " data-toggle="dropdown">Reports</a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle " data-toggle="dropdown">Transactions</a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Products</a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Troubleshooting</a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Monitoring</a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- /#sidebar-wrapper -->
+
+    </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+              /*var trigger = $('.hamburger'),*/ 
+                var trigger = $('.navbar-toggler'),
+                wrapper = $('.wrapper'),
+                 isClosed = false;
+
+
+              
+              $('[data-toggle="offcanvas"]').click(function () {
+                    $('#wrapper').toggleClass('toggled');
+                    if($('.wrapper').hasClass('shrink'))
+                        $('.wrapper').removeClass('shrink');
+                    else
+                        $('.wrapper').addClass('shrink');
+              });  
+            });
+
+            $(document).on('mouseenter','.sidebar-nav',function(e){
+                $( '.sidebar-brand' ).addClass( "static" );
+            });
+            $(document).on('mouseleave','.sidebar-nav',function(e){
+                $( '.sidebar-brand' ).removeClass( "static" );
+            });
+        </script>

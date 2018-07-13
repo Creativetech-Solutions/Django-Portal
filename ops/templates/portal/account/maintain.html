@@ -1,0 +1,316 @@
+{% extends "portal/base.html" %}
+{% block content %}
+<style>
+    .menus-inner-wrap .btn{background-color: #7f7d7d; border-color: #7f7d7d;color:white;}
+    .menus-inner-wrap .btn:hover{background-color: #ee911f; border-color: #ee911f;}
+    .menu-btn{padding: 12px;}
+    .input-group .btn {height: 34px;}
+    .controls input[type="checkbox"]{height: 14px; width: 14px; float: right;}
+    .acc-info-panel div, .wl-acc-info-panel #client_wl div {padding:0 }
+    .acc-info-panel .form-group, .wl-acc-info-panel .form-group {margin-bottom:3px }
+    .acccount-info-tabs{background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(243,246,248,1) 100%);}
+    .actions-wrap .btn{ width: 130px;margin: 2px 0px;white-space:normal;}
+    .nav.main-acc-tabs{background-color: #5a5a5b; border-radius: 5px;}
+    .nav.main-acc-tabs li a{color: white;}
+    .nav-tabs li .active.show, .nav>li>a:focus, .nav>li>a:hover{color:black;background-color:#ddd;}
+    .dt-button{background-color: white; border: 3px; font-size: 16px; border-style: outset;}
+    .modal-header {    background: #337ab7;color:white;}
+    .panel{margin-bottom: 10px; float: left; width: 100%; position: relative;}
+    .modal-title{font-size:18px;}
+</style>
+
+<div class="row" style="background-color: #f1f1f1;">
+    <div class="content-wrap col-xs-12">
+    	<div class="col-xs-12 acccount-info">
+           {% include "portal/account/maintain_basic_info.html" %}
+	       {% include "portal/account/detail_info.html" %}
+	    </div>
+    	<div class="acccount-info-tabs">
+        	<div class="col-xs-12 left-wrap" style="background-color: #dddddd;min-height: 590px;">
+	          <ul class="nav nav-tabs main-acc-tabs row">
+	            <li><a class="active show" data-toggle="tab" href="#home">Accounts</a></li>
+                <li><a data-toggle="tab" href="#one_off_invoices">One-Off Invoices</a></li>
+	            <li><a data-toggle="tab" href="#one_off_charges">One-Off Charges</a></li>
+	            <li><a data-toggle="tab" href="#contacts">Contacts</a></li>
+	            <li><a data-toggle="tab" href="#phones">Numbers</a></li>
+	            <li><a data-toggle="tab" href="#toll_free">Toll Free </a></li>
+	            <li><a data-toggle="tab" href="#st_charges">Standing Charges</a></li>
+	            <li><a data-toggle="tab" href="#pricing">Pricing</a></li>
+	            <li><a data-toggle="tab" href="#reports">Reports</a></li>
+	            <li><a data-toggle="tab" href="#white_label">White Label</a></li>
+	          </ul>
+
+		        <div class="tab-content row">
+		            <div id="home" class="tab-pane fade in active col-xs-12 ">
+		                {% include "portal/account/tabs/accounts.html" %}
+		            </div>
+		            <div id="one_off_invoices" class="tab-pane fade in col-xs-12 ">
+		                {% include "portal/account/tabs/oneoff_invoice.html" %}
+		            </div>
+                    <div id="one_off_charges" class="tab-pane fade in col-xs-12 ">
+                        {% include "portal/account/tabs/one_off_charges.html" %}
+                    </div>
+                    <div id="contacts" class="tab-pane fade in col-xs-12 ">
+                        {% include "portal/account/tabs/contacts.html" %}
+                    </div>
+                    <div id="phones" class="tab-pane fade in col-xs-12 ">
+                        {% include "portal/account/tabs/phones.html" %}
+                    </div>
+                    <div id="toll_free" class="tab-pane fade in col-xs-12 ">
+                        {% include "portal/account/tabs/tollfree.html" %}
+                    </div>
+                    <div id="st_charges" class="tab-pane fade in col-xs-12 ">
+                        {% include "portal/account/tabs/st_charges.html" %}
+                    </div>
+                    <div id="white_label" class="tab-pane fade in col-xs-12 ">
+                        <div class="acc-info-panel col-xs-12 " style="padding:12px;background-color:white">
+                            
+                        </div>
+                    </div>
+		        </div>
+	        </div>
+	    </div>
+  	</div>
+</div>
+
+<!-- data placeholders -->
+<div class="hidden placeholders">
+    <span class="area_names"></span>
+    <span class="line_types"></span>
+    <span class="mobile_plans"></span>
+    <span class="mobile_group_plans"></span>
+    <span class="company_positions"></span>
+    <span class="toll_free"></span>
+    <span class="phones"></span>
+    <span class="providers"></span>
+    <span class="staffs"></span>
+    <span class="paymentOptions"></span>
+</div>
+
+<div class="modal add-edit-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content row">
+        <div class="modal-header text-center">
+            <strong class="modal-title" id="exampleModalLabel"></strong>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body row col-xs-12">
+            <div class="text-center col-xs-12"><i class="fa fa-spinner fa-spin fa-2x"></i></div>
+        </div>
+        <input type="hidden" name="action" value="">
+        <div class="modal-footer col-xs-12">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary modal-action-btn">Save</button>
+          </div>
+    </div>
+  </div>
+</div>
+<script>
+    window.one_off_invoices = window.contacts = window.phones = window.mobiles = window.toll_free = window.st_charges = window.one_off_charges = window.white_label = false;
+        $('.nav-tabs a').on('shown.bs.tab', function(event){
+        var href = $(event.target).attr('href'); 
+        $('.add-edit-modal').find('input[name="action"]').val(href);
+        switch(href){
+            case '#one_off_invoices':
+                if (window.one_off_invoices == false){
+                    getOneOffInvoices();
+                    window.one_off_invoices = true
+                }
+                break;
+            case '#one_off_charges':
+                if (window.one_off_charges == false){
+                    getOneOffCharges();
+                    window.one_off_charges = true
+                }
+                break;
+            case '#contacts':
+                if (window.contacts == false){
+                    getContacts();
+                    window.contacts = true
+                }
+                break;
+            case '#phones':
+                if (window.phones == false){
+                    getClientPhones();
+                    window.phones = true
+                }
+                break;
+            case '#mobiles':
+                if (window.mobiles == false){
+                    getMobiles();
+                    window.mobiles = true
+                }
+                break;
+            case '#toll_free':
+                if (window.toll_free == false){
+                    getTollFree();
+                    window.toll_free = true
+                }
+                break;
+            case '#st_charges':
+                if (window.st_charges == false){
+                    getStCharges();
+                    window.st_charges = true
+                }
+                break;
+          /*  case '#white_label':
+                if (window.white_label == false){
+                    getWhitelabel();
+                    window.white_label = true
+                }
+                break;*/
+        }
+    });
+
+    $(document).on('show.bs.modal','.add-edit-modal', function(e){
+        var ref = $(this);
+        var id = $(e.relatedTarget).attr('data-id');
+        var action = ref.find('input[name="action"]').val();
+        switch(action){
+
+            case "#one_off_charges":
+               getOneOffChargesForm(id, ref);
+                break;
+            case "#contacts":
+               getContactForm(id, ref);
+                break;
+            case "#phones":
+               getPhonesForm(id, ref);
+               //  break;
+            case "#mobiles":
+               getMobilesForm(id, ref);
+                break;
+            case "#toll_free":
+                getTollFreeForm(id, ref);
+                break;
+            case "#st_charges":
+                getStchargesForm(id, ref);
+                break;
+            case "enable_wl":
+                getWlForm(ref);
+                break;
+        }
+    })
+
+    $(document).on('click','.modal-action-btn', function(e){
+        $(this).parents('.modal').find('form').submit();
+    })
+
+    $(document).on('submit','.add-edit-modal form',function(e){
+        e.preventDefault();
+        var form=$(this);
+        $.ajax({
+          type: "POST",
+          url: form.attr( 'action' ),
+          // data: form.serialize(),
+          data:  new FormData(this),
+          contentType: false,
+          cache: false, 
+          processData:false,
+          beforeSend:function(){
+            $('.modal-action-btn').html('Saving <i class="fa fa-spinner fa-spin"></i>');
+          },
+          success: function( data ) {
+            var data = JSON.parse(data);
+            notify(data['message'], data['alert']);
+            if (data['action'] != 'undefined' && data['action'] == 'createWl' && data['alert'] == 'success'){
+                $('.wl-enable-btn').find('.state-icon').addClass('fa-check').removeClass('fa-square');
+                $('input[name="wl_enabled"]').val('True');
+            }
+            $('.modal-action-btn').html('Save');
+            $('.add-edit-modal').modal('hide');
+          },
+          error:function(){
+
+          }
+      });
+    })
+
+    $(document).on('click','.enable-wl', function(e){
+        $('.add-edit-modal').find('input[name="action"]').val("enable_wl");
+        $('.add-edit-modal').modal('show');
+    })
+
+    function getWlForm(ref){
+        ref.find('.modal-title').html('Enable/Edit White Label');
+        $.ajax({
+          url: "{{request.META.HTTP_NAME }}/client/getWhitelabel/{{data.data.clients.client_id}}",
+          data:{wl_enabled:"{{data.data.clients.wl_enabled}}"},
+          beforeSend:function(){
+            ref.find('.modal-body').html('<div class="text-center col-xs-12"><i class="fa fa-spinner fa-spin fa-2x"></i></div>');
+          },
+          success: function( data ) {
+              ref.find('.modal-body').html(data);
+                var agent_selct_box = ref.find('select[name="agent_id"]');
+                var pay_opt_selct_box = ref.find('select[name="payment_option"]');
+                agent_selct_box.html($('.placeholders .staffs').html());
+                pay_opt_selct_box.html($('.placeholders .paymentOptions').html());
+                agent_selct_box.val(agent_selct_box.attr('data-id')).trigger('change.select2');
+                pay_opt_selct_box.val(pay_opt_selct_box.attr('data-id')).trigger('change.select2');
+
+            }
+        }) 
+    }
+
+    $(document).on('submit','.acc-info-panel form',function(e){
+        e.preventDefault();
+        var form=$(this);
+        var ref = $('.edit-client');
+        $.ajax({
+          type: "POST",
+          url: form.attr( 'action' ),
+          // data: form.serialize(),
+          data:  new FormData(this),
+          contentType: false,
+          cache: false, 
+          processData:false,
+          beforeSend:function(){
+            $('.modal-action-btn').html('Saving <i class="fa fa-spinner fa-spin"></i>');
+          },
+          success: function( data ) {
+            var data = JSON.parse(data);
+            notify(data['message'], data['alert']);
+            $('.modal-action-btn').html('Save');
+          },
+          error:function(){
+
+          }
+      });
+    })
+
+    $(document).on('click','.wl-enable-btn', function(e){
+        if($('input[name="wl_enabled"]').val() == 'True'){
+            $(this).find('.state-icon').addClass('fa-square').removeClass('fa-check');
+            $('input[name="wl_enabled"]').val('False');
+        }else{
+            $(this).find('.state-icon').addClass('fa-check').removeClass('fa-square');
+            $('input[name="wl_enabled"]').val('True');
+        }
+    })
+
+
+    function getWhitelabel(){
+        $.ajax({
+          url: "{{request.META.HTTP_NAME }}/client/getWhitelabel/{{data.data.clients.client_id}}",
+          data:{wl_enabled:"{{data.data.clients.wl_enabled}}", 'action':'read'},
+          beforeSend:function(){
+          },
+          success: function( data ) {
+                $('#white_label .acc-info-panel').html(data);
+                $('#white_label').find('input,select,textarea').removeAttr('name').attr('readonly','readonly');
+                $(".placeholders .staffs > option").each(function() {
+                    if($('.wl_agent_id').attr('data-id') == $(this).attr('value'))
+                        $('.wl_agent_id').html(this.text);
+                });
+                $(".placeholders .paymentOptions > option").each(function() {
+                    if($('.wl_payment_opt').attr('data-id') == $(this).attr('value'))
+                        $('.wl_payment_opt').html(this.text);
+                });
+            }
+        }) 
+    }
+    getWhitelabel();
+</script>
+{% endblock %}

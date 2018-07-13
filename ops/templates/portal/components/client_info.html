@@ -1,0 +1,34 @@
+{% if data.isSuccess == True %} 
+      <div class="col-xs-12">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">Name:</div>
+            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10 name">{{data.data.clients.client_name}}</div>
+      </div>
+      <div class="col-xs-12">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">Email:</div>
+            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10 email">{{data.data.clients.client_email}}</div>
+      </div>
+      <div class="col-xs-12">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">Fax Number:</div>
+            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10 fax_num">{{data.data.clients.client_fax_number|default:"------------"}}</div>
+      </div>
+      <div class="col-xs-12">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">Phone No:</div>
+            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10 phone_num">{{data.data.clients.client_phone_number|default:"------------"}}</div>
+      </div>
+      <div class="col-xs-12">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">Area:</div>
+            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10 area">{{data.data.clients.area|default:"------------"}}</div>
+      </div>
+      <div class="col-xs-12">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">Address 1:</div>
+            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10 address_1">{{data.data.clients.postal_address_1|default:"------------"}}</div>
+      </div>
+      <div class="col-xs-12">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">Address 2:</div>
+            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10 address_2">{{data.data.clients.postal_address_2|default:"------------"}}</div>
+      </div>
+{% endif %} 
+
+{% if data.isSuccess == False %} 
+      <div class="errors">{{ data }}</div>
+{% endif %} 

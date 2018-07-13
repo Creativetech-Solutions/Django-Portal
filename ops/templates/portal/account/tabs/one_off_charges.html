@@ -1,0 +1,141 @@
+<table class="table" id="oneoffchargesTable" style="width:100%"></table>
+<script>
+    function getOneOffCharges(){
+        jQuery('#oneoffchargesTable').dataTable({
+            "ajax": "{{ request.META.HTTP_NAME }}/client/getOneOffCharges/{{ data.data.clients.client_id}}",
+            "pageLength": 10,
+            "bDestroy": true,
+            "responsive":true,
+            "order": [[ 0, "desc" ]],
+            language: { search: "",searchPlaceholder: "Search" },
+            aoColumns: [
+                {
+                    mData: 'other_charges_date'
+                },
+                {
+                    mData: 'other_charges_description'
+                },
+                {
+                    mData: 'supplier'
+                },
+                {
+                    mData: 'supplier_invoice'
+                },
+                {
+                    mData: 'other_charges_nett_amount',
+                    render: function ( data, type, row, meta ) {
+                      return '$'+parseFloat(Math.round(data * 100) / 100).toFixed(2);
+                    }
+                },
+                {
+                    mData: 'other_charges_gst_amount',
+                    render: function ( data, type, row, meta ) {
+                      return '$'+parseFloat(Math.round(data * 100) / 100).toFixed(2);
+                    }
+                },
+                {
+                    mData: 'other_charges_gross_amount',
+                    render: function ( data, type, row, meta ) {
+                      return '$'+parseFloat(Math.round(data * 100) / 100).toFixed(2);
+                    }
+                },
+                {
+                    mData: 'other_charges_age',
+                },
+                {
+                    mData: 'other_charges_transaction_id',
+                    render: function ( data, type, row, meta ) {
+                        var $html = '<span><a data-id="'+data+'" data-toggle="modal" data-target=".add-edit-modal" class="btn btn-sm btn-info">View </a> ';
+                        if(row.other_charges_age == '0')
+                            $html +='<a data-id="'+data+'" data-toggle="modal" data-target=".add-edit-modal" class="btn btn-sm btn-primary">Edit </a></span>';
+                        return $html;
+                    }
+                }
+            ],
+
+            "columnDefs": [
+                {
+                    "title": "Date",
+                    "targets": 0
+                },
+                {
+                    "title": "Description",
+                    "targets": 1
+                },
+                {
+                    "title": "Supplier",
+                    "targets": 2
+                },
+                {
+                    "title": "Inv#",
+                    "targets": 3
+                },
+                {
+                    "title": "Net",
+                    "className": "text-right",
+                    "targets": 4
+                },
+                {
+                    "title": "GST",
+                    "className": "text-right",
+                    "targets": 5
+                },
+                {
+                    "title": "Gross",
+                    "className": "text-right",
+                    "targets": 6
+                },
+                {
+                    "title": "Age",
+                    "className": "text-right",
+                    "targets": 7
+                },
+                {
+                    "title": "Action",
+                    "targets": 8
+                },
+
+
+            ],
+           "sDom": 'lfBrtip',
+            buttons: [
+                {
+                  text: 'Add Charge',
+                  action: function ( e, dt, node, config ) {
+                    $('.add-edit-modal').modal('show');
+                  }
+                }
+            ],
+            "initComplete": function(settings, json) {
+                if ($('.placeholders .providers').html() == ""){
+                 $.ajax({
+                      url: "{{request.META.HTTP_NAME }}/providers/getServiceProviders",
+                      success: function( data ) {
+                            $('.placeholders .providers').html(data);
+                        }
+                    })
+                }
+            }
+        });
+    }
+
+    function getOneOffChargesForm(chargesId,ref){
+        if(chargesId == null){
+          chargesId = 0
+          ref.find('.modal-title').html('Add One-Off Charge');
+        } else
+          ref.find('.modal-title').html('Edit One-Off Charge');
+          
+        $.ajax({
+          url: "{{request.META.HTTP_NAME }}/client/getOneOffCharges/{{data.data.clients.client_id}}",
+          data:{charges_id:chargesId},
+          beforeSend:function(){
+            ref.find('.modal-body').html('<div class="text-center col-xs-12"><i class="fa fa-spinner fa-spin fa-2x"></i></div>');
+          },
+          success: function( data ) {
+                ref.find('.modal-body').html(data);
+                ref.find('select[name="supplier"]').html($('.placeholders .providers').html());
+            }
+        }) 
+    }
+</script>

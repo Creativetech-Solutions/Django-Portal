@@ -1,0 +1,503 @@
+<style>
+    .menus-inner-wrap .btn{background-color: #7f7d7d; border-color: #7f7d7d;color:white;}
+    .menus-inner-wrap .btn:hover{background-color: #ee911f; border-color: #ee911f;}
+    .menu-btn{padding: 12px;}
+    span.select2-selection{border-radius: 0 4px 4px 0!important; height: 34px!important; padding-top: 2px;}
+    .input-group .btn {height: 34px;}
+    .controls input[type="checkbox"]{height: 14px; width: 14px; float: right;}
+</style>
+
+
+        <div class="page-head col-xs-12 text-center">
+            <h3><strong>Create Account</strong></h3>
+        </div>
+        <div class="create-account-wrap col-xs-12">
+            <div class="alert alert-danger" style="display: none">
+            </div>
+            <form class="create-acc-form" method="POST">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Basic Info</div>
+                    <div class="panel-body">
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Name</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-user"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="client_name">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Trade Name</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-user"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="trade_name">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Faxware Acc Name</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-user"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="faxware_acc_name">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Email</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-envelope"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="email">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Type</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-edit"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="client_type">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Client Pin</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-key"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="pin">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Staff</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-user"></i></button>
+                                </div>
+                                <select class="form-control select2" placeholder="" name="staff_and_agents_id">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Phone Number 1</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-phone"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="phone_num_1">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Phone Number 2</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-phone"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="phone_num_2">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Fax No.</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-fax"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="fax_num">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-heading">Contacts</div>
+                    <div class="panel-body">
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Contact</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-address-book"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="contact">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Postal Address 1</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-address-card"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="post_address_1">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Postal Address 2</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-address-card"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="post_address_2">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Postal Address 3</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-address-card"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="post_address_3">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Physical Address 1</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-address-card"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="phy_address_1">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Physical Address 2</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-address-card"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="phy_address_2">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Area</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-globe"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="area">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Country</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-flag"></i></button>
+                                </div>
+                                <select class="form-control select2" name="country_id"></select>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Area Name</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-globe"></i></button>
+                                </div>
+                                <select class="form-control select2" name="area_name_id"></select>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Operating Hours</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-clock-o"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="operating_hrs">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-heading">Controls</div>
+                    <div class="panel-body controls">
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Charge Client Gst</label>
+                                    <input name="charge_client_gst" type="checkbox" aria-label="Checkbox for following text input">
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Group Print Bcast</label>
+                            <input name="group_print_bcast" type="checkbox" aria-label="Checkbox for following text input">
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Client Flag</label>
+                            <input name="client_flag" type="checkbox" aria-label="Checkbox for following text input">
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Email Invoice</label>
+                            <input name="email_invoice" type="checkbox" aria-label="Checkbox for following text input">
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Print Invoice</label>
+                            <input name="print_invoice" type="checkbox" aria-label="Checkbox for following text input">
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Web Invoice</label>
+                            <input name="web_invoice" type="checkbox" aria-label="Checkbox for following text input">
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Charge Calls Per Second</label>
+                            <input name="charge_call_per_sec" type="checkbox" aria-label="Checkbox for following text input">
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Wl Enable</label>
+                            <input name="wl_enable" type="checkbox" aria-label="Checkbox for following text input">
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Active</label>
+                            <input name="is_active" type="checkbox" aria-label="Checkbox for following text input">
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Head Office</label>
+                            <input type="checkbox" class="form-control" placeholder="" name="head_office">
+                        </div>
+                    </div>
+
+                    <div class="panel-heading">Plans</div>
+                    <div class="panel-body">
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">National Rate Plan</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-percent"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="national_rate_plan">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">International Rate Plan</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-percent"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="international_rate_plan">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">BroadCast Rate Plan</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-percent"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="broadcoast_rate_plan">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">National Voip Rate Plan</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-percent"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="national_voip_rate_plan">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">International Voip Rate Plan</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-percent"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="international_voip_rate_plan">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-heading">Others</div>
+                    <div class="panel-body">
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Decision Maker</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-user"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="decision_maker">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Decision Maker Phone</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-phone"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="decision_maker_phone">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Account Manager</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-user"></i></button>
+                                </div>
+                                <select class="form-control select2" placeholder="" name="account_mananger_id">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Account Manager Base Amt</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-money"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" value="0" name="account_mananger_base_amt">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Industry</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-industry"></i></button>
+                                </div>
+                                <select class="form-control select2" placeholder="" name="industry_id">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Business Type</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-briefcase"></i></button>
+                                </div>
+                                <select class="form-control select2" placeholder="" name="business_type_id">
+                                   
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">No of Employees</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-users"></i></button>
+                                </div>
+                                <input type="text" class="form-control" placeholder="" name="no_of_employees">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="exampleInputEmail1">Payment Option</label>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="fa fa-money"></i></button>
+                                </div>
+                                <select class="form-control select2" placeholder="" name="payment_option_id">
+                                   
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12">
+                            <label for="exampleInputEmail1">Notes</label>
+                            <textarea class="form-control" placeholder="" rows="3" name="notes"></textarea>
+                        </div>
+                        <div class="col-xs-12">
+                            <input type="submit" class="btn btn-primary create-acc" value="Sumbit" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+<script>
+    $(document).ready(function(e){
+      
+        $.ajax({
+          url: "{{request.META.HTTP_NAME }}/staff/getAllStaffs",
+          success: function( data ) {
+            $('select[name="staff_and_agents_id"]').html(data);
+            $('select[name="account_mananger_id"]').html(data);
+            }
+        })
+        $.ajax({
+          url: "{{request.META.HTTP_NAME }}/business/getBusinessTypes",
+          success: function( data ) {
+            $('select[name="business_type_id"]').html(data);
+            }
+        })
+        $.ajax({
+          url: "{{request.META.HTTP_NAME }}/area/getAreaNames",
+          success: function( data ) {
+            $('select[name="area_name_id"]').html(data);
+            }
+        })
+        $.ajax({
+          url: "{{request.META.HTTP_NAME }}/industry/getIndustries",
+          success: function( data ) {
+            $('select[name="industry_id"]').html(data);
+            }
+        })
+        $.ajax({
+          url: "{{request.META.HTTP_NAME }}/country/getCountries",
+          success: function( data ) {
+            $('select[name="country_id"]').html(data);
+            $('select[name="country_id"]').val('185').trigger('change.select2');
+            }
+        })
+        $.ajax({
+          url: "{{request.META.HTTP_NAME }}/payment/getPaymentOptions",
+          success: function( data ) {
+            $('select[name="payment_option_id"]').html(data);
+            }
+        })
+    })
+
+    $(document).on('blur', 'input[name="phone_num_1"]', function(e){
+      var areaCode = $(this).val();
+
+      if(areaCode == "") return false;
+
+      $.ajax({
+        url: "{{request.META.HTTP_NAME }}/area/getAreaNames/"+areaCode,
+        success: function( data ) {
+            data = JSON.parse(data);
+            if (data.data != undefined && data.data.area_names.length > 0)
+              $('select[name="area_name_id"]').val(data.data.area_names[0].national_area_name_id).trigger('change.select2');
+          }
+      })
+    })
+
+    $(document).on('submit','.create-acc-form', function(e){
+        e.preventDefault();
+        var url = "{{request.META.HTTP_NAME }}/account/creating";
+        var form=$(this);
+        // check integer values 
+        var intInputs = ['area_name_id','country_id', 'account_mananger_id','industry_id', 'business_type_id'];
+        var error = false;
+        if($('input[name="client_name"]').val() == ""){
+            formgroup = $('input[name="client_name"]').parents('.form-group');
+            formgroup.find('.text-danger').remove();
+            formgroup.append('<span class="text-danger">Name is Required</span>');
+            error = true;
+        }
+
+        $.each(intInputs, function(i, val){
+            var inputVal = $('select[name="'+val+'"]').val();
+            if(Math.floor(inputVal) != inputVal || !$.isNumeric(inputVal)) {
+              console.log(inputVal);
+                var formgroup = $('input[name="'+val+'"]').parents('.form-group');
+                formgroup.find('.text-danger').remove();
+                formgroup.append('<span class="text-danger">Value Must Be Integer</span>');
+                error = true;
+            }
+        })
+        console.log(error);
+        if(error) return false;
+        else $('.text-danger').remove();
+
+        $.ajax({
+          type: "POST",
+          url: url,
+          // data: form.serialize(),
+          data:  new FormData(this),
+          contentType: false,
+          cache: false, 
+          processData:false,
+          beforeSend:function(){
+            form.find('.create-acc').val('Submitting');
+          },
+          success: function( data ) {
+            data = JSON.parse(data)
+            if(data['alert'] == 'success')
+                $('.create-account-wrap .alert').addClass('alert-success').removeClass('alert-danger');
+            else 
+                $('.create-account-wrap .alert').addClass('alert-danger').removeClass('alert-success');
+
+            $('.create-account-wrap .alert').html(data['message']).show().delay( 5000 ).fadeOut();
+            form.find('.create-acc').val('Submit');
+          },
+          error:function(){
+
+          }
+      })
+    })
+</script>

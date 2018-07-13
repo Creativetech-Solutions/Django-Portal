@@ -1,0 +1,215 @@
+{% load staticfiles %}  
+
+<script src="{% static 'portal/js/moment.min.js' %}"></script>
+<script src="{% static 'portal/js/daterangepicker.min.js' %}"></script>
+<script>
+    
+    // hide search result drop list on click outside 
+    $(document).mouseup(function(e) 
+    {
+        var container = $(".search-result");
+
+        // if the target of the click isn't the container nor a descendant of the container
+        if (!container.is(e.target) && container.has(e.target).length === 0) 
+        {
+            container.find('.dropdown-menu').removeClass('show');
+        }
+    });
+
+    function getClients(){
+        $.ajax({
+            url: '{{ request.META.HTTP_NAME }}/api/getClients',
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+            },
+        }).done(function(response){
+             $('.client-info-wrapper').html(response);
+        });   
+    }
+
+    $(document).on('keyup','.search-field', function(e){
+      if($(this).attr('data-type')=='services')
+        var url = '{{ request.META.HTTP_NAME }}/api/searchClient';
+      else if ($(this).attr('data-type')=='partner')
+        var url = '{{ request.META.HTTP_NAME }}/partner/searchPartner';
+
+        var name = $(this).val();
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13' || name.length >= 3){ 
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    search_str:name
+                },
+                beforeSend:function(e){
+                    $('.search-box').find('.input-icon').hide();
+                    $('.search-box').find('.fa-spin').show();
+                }
+            }).done(function(response){
+                $(".search-result").find('.dropdown-menu').addClass('show');
+                    $('.search-box').find('.input-icon').show();
+                $('.search-box').find('.fa-spin').hide();
+                $('.search-result').find('.dropdown-menu').html(response);
+            });   
+        }  
+
+    })
+
+    $(document).on('click','.search-modal', function(e){
+      var name = $('.search-services').val();
+      if(name.length >= 3){ 
+            $.ajax({
+                url: '{{ request.META.HTTP_NAME }}/api/searchClient',
+                type: 'POST',
+                data: {
+                    search_str:name
+                },
+                beforeSend:function(e){
+                    $('.search-box').find('.input-icon').hide();
+                    $('.search-box').find('.fa-spin').show();
+                }
+            }).done(function(response){
+                $(".search-result").find('.dropdown-menu').addClass('show');
+                    $('.search-box').find('.input-icon').show();
+                $('.search-box').find('.fa-spin').hide();
+                $('.search-result').find('.dropdown-menu').html(response);
+            });   
+        }
+    })
+
+    $(document).on('shown.bs.modal','.base-modal', function(e) {
+        var $invoker = $(e.relatedTarget);
+        if($invoker.hasClass('search-modal')){
+            $(this).find('.modal-title').html($invoker.attr('data-title'));
+            $(this).find('.modal-body').html($('.advance-search').html());
+            $(this).find('.action-btn').html('Search Now');
+            $(this).find('.action').val('search-clients');
+        }
+    })
+
+    $(document).on('click','.base-modal .action-btn', function(e){
+        var action = $(this).parents('.base-modal').find('.action').val();
+        console.log(action);
+        switch(action){
+            case 'search-clients':
+                $(this).parents('.base-modal').find('form').submit();
+                break;
+        }
+    })
+
+
+    $(document).on('click','.add-customer', function(e){
+        $('.create-acc').modal('show');
+    })
+
+    $(document).on('focus', '.search-services', function() {
+        $(this).removeClass('closed');
+    });
+    $(document).on('blur', '.search-services', function() {
+        // check if search result dropdown is not open 
+        if(!$(".search-result").find('.dropdown-menu:visible').length)
+            $(this).addClass('closed');
+     
+    });
+
+    $(document).ready(function() {
+      $('.select2').select2();
+  });
+
+
+    $(document).on('shown.bs.modal','.create-acc', function(e) {
+        $.ajax({
+          type: "GET",
+          url: "{{ request.META.HTTP_NAME }}/getcreateAccountPage",
+          // data: form.serialize(),
+          data:  new FormData(this),
+          contentType: false,
+          cache: false, 
+          processData:false,
+          beforeSend:function(){
+            $('.base-modal').find('.action-btn').html('Searching <i class="fa fa-spinner fa-spin"></i>');
+          },
+          success: function( data ) {
+            data = data.replace(/col-lg-3/g,'');
+            $('.create-acc').find('.modal-body').html(data);
+          },
+          error:function(){
+
+          }
+        });
+    })
+
+    function notify(text, type, position){
+        $.notify( text, {
+        // whether to hide the notification on click
+        clickToHide: true,
+        // whether to auto-hide the notification
+        autoHide: true,
+        // if autoHide, hide after milliseconds
+        autoHideDelay: 5000,
+        // show the arrow pointing at the element
+        arrowShow: true,
+        // arrow size in pixels
+        arrowSize: 5,
+        // position defines the notification position though uses the defaults below
+        position: 'bottom center',
+        // default positions
+        elementPosition: 'bottom center',
+        globalPosition: 'bottom center',
+        // default style
+        style: 'bootstrap',
+        // default class (string or [string])
+        className: type,
+        // show animation
+        showAnimation: 'slideDown',
+        // show animation duration
+        showDuration: 400,
+        // hide animation
+        hideAnimation: 'slideUp',
+        // hide animation duration
+        hideDuration: 200,
+        // padding between element and notification
+        gap: 2
+      })
+    }
+    
+    $(document).on('focus','.daterangepicker', function (e){
+        $(this).daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            startDate: dateFormat(new Date()),
+            locale: {
+                format: 'YYYY-MM-DD'
+            }
+        });
+    })
+
+    function dateFormat(date){
+        var dd = date.getDate();
+        var mm = date.getMonth()+1; //January is 0!
+        var yyyy = date.getFullYear();
+
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+
+        if(mm<10) {
+            mm = '0'+mm
+        } 
+
+        return yyyy + '-' + mm + '-' + dd;
+        
+    }
+</script>
+
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js" ></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js" ></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js" ></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
+<script src="{% static 'portal/js/notify.min.js' %}"></script>

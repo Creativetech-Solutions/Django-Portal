@@ -1,0 +1,51 @@
+<script>
+    function getAllClients() {
+        jQuery('#accountsTable').dataTable({
+            "ajax": "{{ request.META.HTTP_NAME }}/api/getAllClients",
+            "pageLength": 10,
+            "bDestroy": true,responsive: true,
+            language: { search: "",searchPlaceholder: "Search" },
+            aoColumns: [
+                {
+                    mData: 'client_id'
+                },
+                {
+                    mData: 'client_name',
+                    render: function ( data, type, row, meta ) {
+                        var clientName = row.client_name;
+                        var trim_name = clientName.substr(clientName.indexOf("(")+1, (clientName.indexOf(')')-clientName.indexOf("(")-1));
+                        if (trim_name != "")
+                            clientName = trim_name;
+                        
+                        return '<a href="{{ request.META.HTTP_NAME }}/clients/'+row.client_id+'">'+clientName+'</a>';
+                    }
+                },
+            ],
+
+            "columnDefs": [
+                {
+                    "title": "Id",
+                    "targets": 0
+                },
+
+                {
+                    "title": "Name",
+                    "targets": 1
+                },
+            ],
+           "sDom": 'lfBrtip',
+            buttons: [
+                {
+                  text: 'Create a New Account',
+                  action: function ( e, dt, node, config ) {
+                    $('.create-acc-modal').modal('show');
+                  }
+                }
+            ]
+        });
+    }
+
+
+ 
+	
+</script>

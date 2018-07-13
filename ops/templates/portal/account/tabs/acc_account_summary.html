@@ -1,0 +1,55 @@
+{% load define_action %}
+<table style="width:100%">
+{% if data.isSuccess == True %}
+	{% if data.data.account_summary %}
+		<tr>
+			<td>Opening</td>
+			<td>
+					{{ data.data.account_summary.overdue|amountFormat }}
+			</td>
+		</tr>
+		<tr>
+			<td>Credits</td>
+			<td>
+					{{ data.data.account_summary.Current_Discount|amountFormat }}
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="spacer"></td></tr>
+		<tr>
+			<td>Overdue</td>
+			<td>{{data.data.account_summary.overdue|amountFormat}}</td>
+		</tr>
+		<tr>
+			<td>Last Months Charge</td>
+			<td>{{data.data.account_summary.invoice_gross_amount|amountFormat}}</td></tr>
+		<tr>
+			<td colspan="2" class="spacer"></td></tr>
+		<tr>
+			<td>Last Month Total</td>
+			<td>{{ data.data.account_summary.invoice_gross_amount|add:data.data.account_summary.overdue | amountFormat  }}</td></tr>
+		<tr>
+			<td>Overdue OneOff Invoices</td>
+			<td>{{data.data.account_summary.OOChargesOLD|amountFormat}}</td></tr>
+		<tr>
+			<td colspan="2"><strong>Current Months Transactions</strong></td></tr>
+		<tr>
+			<td>Payments</td>
+			<td>{{data.data.account_summary.Current_Payment|amountFormat}}</td></tr>
+		<tr>
+			<td>Credits</td>
+			<td>{{data.data.account_summary.Current_Credit|amountFormat}}</td></tr>
+		<tr>
+			<td>This Months Invoices</td>
+			<td>{{data.data.account_summary.other_charges_amount|amountFormat}}</td></tr>
+		<tr>
+			<td colspan="2" class="spacer"></td></tr>
+		<tr>
+			<td><strong>Overall Total Due</strong></td>
+			<td><strong>{{ data.data.account_summary.invoice_gross_amount|add:data.data.account_summary.overdue | amountFormat }}</strong></td>
+		</tr>
+	{% else %}
+			<tr><td>No Record Found</td></tr>
+	{% endif %}
+{% endif %}
+</table>

@@ -1,0 +1,160 @@
+{% load define_action %}
+{% if data.isSuccess == True %}
+	{% if data.data.clients %}
+	{% endif %}
+{% endif %}
+<style>
+    span.select2-selection{border-radius: 4px!important; height: 34px!important; padding-top: 2px;}
+</style>
+<div class="panel panel-default">
+    <div class="panel-heading">Basic Info 
+    	<a class="btn pull-right acc-info-colapse-invokr" data-toggle="collapse" href=".acc-info-panel" aria-expanded="false" title="Hide Info">
+			<i class="fa fa-minus"></i>
+			</a>
+    </div>
+    <div class="panel-body acc-info-panel collapse show">
+    	<form method="POST" action="{{ request.META.HTTP_NAME }}/partner/edit" class="col-xs-12 edit-partner">
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">ID:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                <input type="text" class="form-control" placeholder="" value="{{data.data.staff.staff_and_agents_id|noneCheck}}" name="staff_and_agents_id">
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">Name:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                <input type="text" class="form-control" placeholder="" value="{{data.data.staff.staff_agent_name|noneCheck}}" name="staff_agent_name">
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">Type:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                 <select class="form-control" placeholder="" name="type">
+	                	<option {% if data.data.staff.type == "1" %} selected="selected" {% endif %} value="1">Comission Partner</option>
+	                	<option {% if data.data.staff.type == "3" %} selected="selected" {% endif %} value="3">Operational Staff</option>
+	                	<option {% if data.data.staff.type == "8" %} selected="selected" {% endif %} value="8">Wholesale Partner</option>
+	                	<option {% if data.data.staff.type == "9" %} selected="selected" {% endif %} value="9">Whitelabel Partner</option>
+                    </select>
+	            </div>
+	        </div>
+
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">Password:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                <input type="text" class="form-control" placeholder="" value="" name="password">
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">Phone:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                <input type="text" class="form-control" placeholder="" value="{{data.data.staff.phone|noneCheck}}" name="phone">
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">Fax:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                <input type="text" class="form-control" placeholder="" value="{{data.data.staff.fax|noneCheck}}" name="fax">
+	            </div>
+	        </div>
+
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">Email:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                <input type="text" class="form-control" placeholder="" value="{{data.data.staff.email|noneCheck}}" name="email">
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">Postal Address 1:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                <input type="text" class="form-control" placeholder="" value="{{data.data.staff.postal_address_1|noneCheck}}" name="postal_address_1">
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">Postal Address 2:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                <input type="text" class="form-control" placeholder="" value="{{data.data.staff.postal_address_2|noneCheck}}" name="postal_address_2">
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">Postal Address 3:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                <input type="text" class="form-control" placeholder="" value="{{data.data.staff.postal_address_3|noneCheck}}" name="postal_address_3">
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">Contact:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                <input type="text" class="form-control" placeholder="" value="{{data.data.staff.contact|noneCheck}}" name="contact">
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">Start Date:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                <input type="text" class="form-control" placeholder="" value="{{data.data.staff.start_date|noneCheck}}" name="start_date">
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">End Date:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                <input type="text" class="form-control" placeholder="" value="{{data.data.staff.end_date|noneCheck}}" name="end_date">
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">Comission Type:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                <input type="text" class="form-control" placeholder="" value="{{data.data.staff.commission_type|noneCheck}}" name="commission_type">
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">Comission Factor:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                <input type="text" class="form-control" placeholder="" value="{{data.data.staff.commission_factor|noneCheck}}" name="commission_factor">
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">Gst Number:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                <input type="text" class="form-control" placeholder="" value="{{data.data.staff.gstnumber|noneCheck}}" name="gstnumber">
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">Bank Account:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                <input type="text" class="form-control" placeholder="" value="{{data.data.staff.bank_account|noneCheck}}" name="bank_account">
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">Holding Account:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                 <select class="form-control" placeholder="" name="holding_account">
+	                	<option {% if data.data.staff.holding_account == 1 %} selected="selected" {% endif %} value="1">Yes</option>
+	                	<option {% if data.data.staff.holding_account == 0 or data.data.staff.holding_account == None %} selected="selected" {% endif %} value="0">No</option>
+                    </select>
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">Notes:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                <textarea class="form-control" placeholder="" value="{{data.data.staff.notes}}" name="notes" rows="3"></textarea>
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <label class="col-xs-12 col-sm-12 col-md-4">Password Must Change:</label>
+	            <div class="col-xs-12 col-sm-12 col-md-8">
+	                 <select class="form-control" placeholder="" name="password_must_change">
+	                	<option {% if data.data.staff.password_must_change == True %} selected="selected" {% endif %} value="True">Yes</option>
+	                	<option {% if data.data.staff.password_must_change == False %} selected="selected" {% endif %} value="False">No</option>
+                    </select>
+	            </div>
+	        </div>
+
+	        <div class="form-group col-xs-12 col-sm-6 col-md-4">
+	            <div class="col-xs-12 col-sm-2 pull-right">
+	                <button type="submit" class="form-control btn btn-primary" placeholder="">Edit</button>
+	            </div>
+	        </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+</script>

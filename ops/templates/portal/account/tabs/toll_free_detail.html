@@ -1,0 +1,100 @@
+
+        <form method="POST" action="/client/createTollfree/{{ toll_free.client_id}}" class="col-xs-12">
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Toll Free #:</div>
+                  <div class="col-xs-12">
+                    <input type="text" name="toll_free_number" class="form-control" value="{{ toll_free.toll_free_number}}" >
+                  </div>
+            </div>
+           <input type="hidden" name="client_toll_free_id" class="form-control" value="{{ toll_free.client_toll_free_id}}" >
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Terminating #:</div>
+                  <div class="col-xs-12">
+                    <input type="text" name="terminating_number" class="form-control" value="{{ toll_free.terminating_number}}" >
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">National Area Name:</div>
+                  <div class="col-xs-12">
+                    <select class="select2 form-control" style="width:100%" data-id="{{toll_free.national_area_name_id}}" name="national_area_name_id"></select>
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Line Type:</div>
+                  <div class="col-xs-12">
+                    <select class="select2 form-control" style="width:100%" data-id="{{toll_free.line_type_id}}" name="line_type_id"></select>
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Is Mobile:</div>
+                  <div class="col-xs-12">
+                   <select class="form-control" placeholder="" name="is_mobile">
+                    <option {% if toll_free.is_mobile == True %} selected="selected" {% endif %} value="True">Yes</option>
+                    <option {% if toll_free.is_mobile == False %} selected="selected" {% endif %} value="False">No</option>
+                    </select>
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Local Phone Rate:</div>
+                  <div class="col-xs-12">
+                    <input type="text" name="local_term_phone_rate" class="form-control" value="{{ toll_free.local_term_phone_rate}}" >
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">National Phone Rate:</div>
+                  <div class="col-xs-12">
+                    <input type="text" name="national_term_phone_rate" class ="form-control" value="{{ toll_free.national_term_phone_rate}}" >
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Cellphone Phone Rate:</div>
+                  <div class="col-xs-12">
+                    <input type="text" name="cellphone_term_phone_rate" class ="form-control" value="{{ toll_free.cellphone_term_phone_rate}}" >
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Local Cell Rate:</div>
+                  <div class="col-xs-12">
+                    <input type="text" name="local_term_cell_rate" class ="form-control" value="{{ toll_free.local_term_cell_rate}}" >
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">National Cell Rate:</div>
+                  <div class="col-xs-12">
+                    <input type="text" name="national_term_cell_rate" class="form-control" value="{{ toll_free.national_term_cell_rate}}" >
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Cellphone Cell Rate:</div>
+                  <div class="col-xs-12">
+                    <input type="text" name="cellphone_term_cell_rate" class="form-control" value="{{ toll_free.cellphone_term_cell_rate}}" >
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Activation Date:</div>
+                  <div class="col-xs-12">
+                    <input type="text" name="activation_date" class="form-control daterangepicker" value="{{ toll_free.activation_date}}" >
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Cancelled Date:</div>
+                  <div class="col-xs-12">
+                    <input type="text" name="cancelled_date" class="form-control daterangepicker" value="{{ toll_free.cancelled_date}}" >
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Min Charge:</div>
+                  <div class="col-xs-12">
+                   <select class="form-control" placeholder="" name="min_charge">
+                    <option {% if toll_free.min_charge == True %} selected="selected" {% endif %} value="True">Yes</option>
+                    <option {% if toll_free.min_charge == False %} selected="selected" {% endif %} value="False">No</option>
+                    </select>
+                  </div>
+            </div>
+           <div class="col-xs-12 col-sm-6 col-md-4 form-group">
+                  <div class="col-xs-12">Min Fee:</div>
+                  <div class="col-xs-12">
+                    <input type="text" name="minimum_fee" class="form-control" value="{{ toll_free.minimum_fee}}" >
+                  </div>
+            </div>
+          </form>

@@ -1,0 +1,49 @@
+{% extends "portal/base.html" %}
+{% block content %}
+<style>
+	.menus-inner-wrap .btn{background-color: #7f7d7d; border-color: #7f7d7d;color:white;}
+	.menus-inner-wrap .btn:hover{background-color: #ee911f; border-color: #ee911f;}
+	.menu-btn{padding: 12px;}
+	.content-wrap{padding: 20px 0; min-height: 400px; background-color: #fffdfd; margin-top: 20px; border: 1px solid lightgrey;}
+</style>
+
+
+<div class="row" style="background-color: #f1f1f1;">
+	<div class="row content-wrap col-sm-12 col-md-8 col-md-offset-2">
+		<!-- <div class="page-head col-xs-12 text-center">
+			<h3><strong>CRM BILLING</strong></h3>
+		</div> -->
+		<div class="col-xs-6 col-sm-6 col-md-12">
+			<div class="menus-inner-wrap col-sm-12">
+				<div class="menu-btn col-sm-12 col-md-3">
+					<a class="btn form-control" href="{{ request.META.HTTP_NAME }}/account/create">
+					<i class="fa fa-user-plus"></i> Create Account</a>
+				</div>
+				<div class="menu-btn col-sm-12 col-md-3">
+					<a class="btn form-control" href="{{ request.META.HTTP_NAME }}/account/maintain/608">
+					<i class="fa fa-wrench"></i> Maintain Account</a></div>
+				<div class="menu-btn col-sm-12 col-md-3"><a class="btn form-control" href="{{ request.META.HTTP_NAME }}/partner/maintain/{{user_data.staff_and_agents_id}}">
+					<i class="fa fa-handshake-o"></i> Maintain Partner</a></div>
+				<div class="menu-btn col-sm-12 col-md-3"><a class="btn form-control">
+					<i class="fa fa-tasks"></i> Activites</a></div>
+			</div>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-12">
+			<div class="menus-inner-wrap col-sm-12">
+				<div class="menu-btn col-sm-12 col-md-3"><a class="btn form-control">
+					<i class="fa fa-signal"></i> Reports</a></div>
+				<div class="menu-btn col-sm-12 col-md-3"><a class="btn form-control">
+					<i class="fa fa-signal"></i> Reports2</a></div>
+				<div class="menu-btn col-sm-12 col-md-3"><a class="btn form-control">
+					<i class="fa fa-book"></i> Transactions</a></div>
+				<div class="menu-btn col-sm-12 col-md-3"><a class="btn form-control">
+					<i class="fa fa-users"></i> Marketing</a></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- create account form  -->
+
+{% endblock %}
+

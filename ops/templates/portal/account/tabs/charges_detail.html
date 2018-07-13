@@ -1,0 +1,143 @@
+{% load define_action %}
+<style type="text/css">
+  .charges-form .panel-heading{font-weight: bold; font-size: 16px;}
+  .charges-form .panel-body div{padding: 0 5px;}
+</style>
+
+<form method="POST" action="/client/createOneOffCharges/{{ standing_charges.client_id}}" class="col-xs-12 charges-form">
+   <input type="hidden" readonly="readonly" name="other_charges_transaction_id" class="form-control" value="{{ oneoff_charges.other_charges_transaction_id}}" >
+   <div class="col-xs-12 form-group"> <label>Customer: Telanz Communications Ltd</label>
+   </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 form-group">
+    <div class="col-xs-12 col-sm-5 col-md-3"> <label>Product:</div>
+    <div class="col-xs-12 col-sm-7 col-md-9">
+      <select class="select2 form-control" style="width:100%">
+        <option>Default Product</option>
+      </select>
+    </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 form-group">
+    <div class="col-xs-12 col-sm-5 col-md-3"> <label>Description:</label></div>
+    <div class="col-xs-12 col-sm-7 col-md-9">
+      <input type="text" class="form-control" value="{{oneoff_charges.other_charges_description}}" readonly="readonly" name="other_charges_description" />
+    </div>
+    </div>
+  </div>
+  <div class="panel panel-primary">
+    <div class="panel-heading">Ufone Cost</div>
+    <div class="panel-body">
+      <div class="row">
+          <div class="col-xs-12 col-sm-6 form-group">
+          <div class="col-xs-12 col-sm-5 col-md-4"> <label>Supplier:</label></div>
+          <div class="col-xs-12 col-sm-7 col-md-8">
+            <select class="select2 form-control" style="width:100%" data-id="{{oneoff_charges.supplier}}" readonly="readonly" name="supplier"></select>
+          </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 form-group">
+          <div class="col-xs-12 col-sm-5 col-md-4"> <label>Supplier Ref:</label></div>
+          <div class="col-xs-12 col-sm-7 col-md-8">
+             <input type="text" class="form-control"  />
+          </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 col-sm-3 col-md-2 form-group">
+          <div class="col-xs-12"> <label>Invoice Date:</label></div>
+          <div class="col-xs-12">
+            <input type="text" class="form-control" value="{{oneoff_charges.invoice_date}}" readonly="readonly" name="invoice_date" />
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2 form-group">
+          <div class="col-xs-12"> <label>Qty:</label></div>
+          <div class="col-xs-12">
+            <input type="text" class="form-control" value="{{oneoff_charges.other_charges_quantity|quantityCheck}}" readonly="readonly" name="other_charges_quantity" /></div>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2 form-group">
+          <div class="col-xs-12"> <label>Unit Cost:</label></div>
+          <div class="col-xs-12">
+            <input type="text" class="form-control" value="{{oneoff_charges.other_charges_quantity|divide:oneoff_charges.other_charges_cost}}" />
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2 form-group">
+          <div class="col-xs-12"> <label>Total:</label></div>
+          <div class="col-xs-12"><span>${{oneoff_charges.other_charges_cost}}</span></div>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2 form-group">
+          <div class="col-xs-12"> <label>Std Margin:</label></div>
+          <div class="col-xs-12"><span>20%</span></div>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2 form-group">
+          <div class="col-xs-12"> <label>WL Margin:</label></div>
+          <div class="col-xs-12"><span>16.67%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-primary">
+    <div class="panel-heading">Ufone Sell</div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-xs-6 col-sm-3 col-md-2 form-group">
+          <div class="col-xs-12"> <label>Charge Date:</label></div>
+          <div class="col-xs-12">
+            <input type="text" class="form-control" readonly="readonly" name="other_charges_date" value="{{oneoff_charges.other_charges_date}}" />
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2 form-group">
+          <div class="col-xs-12"> <label>Qty:</label></div>
+          <div class="col-xs-12"><span>{{oneoff_charges.other_charges_quantity|quantityCheck}}</span></div>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2 form-group">
+          <div class="col-xs-12"> <label>Unit Price:</label></div>
+          <div class="col-xs-12">
+            <input type="text" class="form-control" value="{{oneoff_charges.other_charges_quantity|divide:oneoff_charges.other_charges_nett_amount }}" />
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2 form-group">
+          <div class="col-xs-12"> <label>Total:</label></div>
+          <div class="col-xs-12"><span>${{oneoff_charges.other_charges_nett_amount }}</span></div>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2 form-group">
+          <div class="col-xs-12"> <label>Profit:</label></div>
+          <div class="col-xs-12"><span>$100</span></div>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2 form-group">
+          <div class="col-xs-12"> <label>Margin:</label></div>
+          <div class="col-xs-12"><span>20%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-primary">
+    <div class="panel-heading">Whitelabel Sell - Netstar Northland</div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-xs-6 col-sm-3 col-md-2 form-group">
+          <div class="col-xs-12"> <label>Charge Date:</label></div>
+          <div class="col-xs-12"><span>{{oneoff_charges.other_charges_date}}</span></div>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2 form-group">
+          <div class="col-xs-12"> <label>Qty:</label></div>
+          <div class="col-xs-12"><span>{{oneoff_charges.other_charges_quantity|quantityCheck}}</span></div>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2 form-group">
+          <div class="col-xs-12"> <label>Unit Price:</label></div>
+          <div class="col-xs-12"><span>{{oneoff_charges.other_charges_quantity|divide:oneoff_charges.other_charges_nett_amount }}</span></div>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2 form-group">
+          <div class="col-xs-12"> <label>Total:</label></div>
+          <div class="col-xs-12"><span>${{oneoff_charges.other_charges_nett_amount }}</span></div>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2 form-group">
+          <div class="col-xs-12"> <label>Std Margin:</label></div>
+          <div class="col-xs-12"><span>$100</span></div>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2 form-group">
+          <div class="col-xs-12"> <label>WL Margin:</label></div>
+          <div class="col-xs-12"><span>16.67%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>

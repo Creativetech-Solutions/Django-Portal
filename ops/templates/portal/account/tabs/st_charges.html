@@ -1,0 +1,157 @@
+<table class="table" id="stChargeTable" style="width:100%"></table>
+
+<script>
+    function getStCharges(){
+        getServiceProviders();
+        jQuery('#stChargeTable').dataTable({
+            "ajax": "{{ request.META.HTTP_NAME }}/client/getStandingCharges/{{ data.data.clients.client_id}}",
+            "pageLength": 10,
+            "bDestroy": true,
+            "responsive":true,
+            language: { search: "",searchPlaceholder: "Search" },
+            aoColumns: [
+                {
+                    mData: 'calling_number'
+                },
+                {
+                    mData: 'standing_charge_description'
+                },
+                {
+                    mData: 'provider_name',
+                },
+                {
+                    mData: 'retail_price',
+                    render: function(data, type, row, meta){
+                      return '$'+parseFloat(Math.round(data * 100) / 100).toFixed(2);
+                    }
+                },
+                {
+                    mData: 'unit_cost',
+                    render: function(data, type, row, meta){
+                      return '$'+parseFloat(Math.round(data * 100) / 100).toFixed(2);
+                    }
+                },
+                {
+                    mData: 'quantity'
+                },
+                {
+                    mData: 'wl_price',
+                    render: function(data, type, row, meta){
+                      return '$'+parseFloat(Math.round(data * 100) / 100).toFixed(2);
+                    }
+                },
+                {
+                    mData: 'standing_charge_id',
+                    render: function ( data, type, row, meta ) {
+                        return '<a class="btn btn-primary btn-sm edit-contact" data-toggle="modal" data-target=".add-edit-modal" data-id="'+row.standing_charge_id+'">Edit </a>';
+                    }
+                }
+            ],
+
+            "columnDefs": [
+                {
+                    "title": "Linked Phone",
+                    "targets": 0
+                },
+                {
+                    "title": "Description",
+                    "targets": 1
+                },
+                {
+                    "title": "Provider",
+                    "targets": 2
+                },
+                {
+                    "title": "Retail",
+                    "className": "text-right",
+                    "targets": 3
+                },
+                {
+                    "title": "Unit Price",
+                    "className": "text-right",
+                    "targets": 4
+                },
+                {
+                    "title": "#",
+                    "className": "text-right",
+                    "targets": 5
+                },
+                {
+                    "title": "WL Retail",
+                    "className": "text-right",
+                    "targets": 6
+                },
+                {
+                    "title": "Action",
+                    "targets": 7
+                },
+            ],
+           "sDom": 'lfBrtip',
+            buttons: [
+                {
+                  text: 'Add Standing Charges',
+                  action: function ( e, dt, node, config ) {
+                    $('.add-edit-modal').modal('show');
+                  }
+                }
+            ],
+            "initComplete": function(settings, json) {
+            }
+        });
+    }
+    function getServiceProviders(){
+      // get service providers
+      if ($('.placeholders .providers').html() == ""){
+       $.ajax({
+            url: "{{request.META.HTTP_NAME }}/providers/getServiceProviders",
+            success: function( data ) {
+                  $('.placeholders .providers').html(data);
+              }
+          })
+      }
+    }
+    function getStchargesForm(id, ref){
+        if(id == null){
+          id = 0
+          ref.find('.modal-title').html('Add Standing Charges');
+        } else
+          ref.find('.modal-title').html('Edit Standing Charges');
+
+        $.ajax({
+          url: "{{request.META.HTTP_NAME }}/client/getStandingCharges/{{data.data.clients.client_id}}",
+          data:{standing_charge_id:id},
+          beforeSend:function(){
+            ref.find('.modal-body').html('<div class="text-center col-xs-12"><i class="fa fa-spinner fa-spin fa-2x"></i></div>');
+          },
+          success: function( data ) {
+              ref.find('.modal-body').html(data);
+              ref.find('select[name="provider_name"]').html($('.placeholders .providers').html());
+              ref.find('select[name="provider_name"]').val(ref.find('select[name="provider_name"]').attr('data-id')).trigger('change.select2');
+              if ($('.placeholders .phones').html() == ""){
+                 $.ajax({
+                      url: "{{ request.META.HTTP_NAME }}/client/getClientPhones/{{ data.data.clients.client_id}}",
+                      data:{'type':'dropdown'},
+                      success: function( data ) {
+                        $('.placeholders .phones').html(data);
+                        ref.find('select[name="client_to_phone_id"]').html(data);
+                      }
+                  })
+                } else 
+                  ref.find('select[name="client_to_phone_id"]').html($('.placeholders .phones').html());
+
+                if ($('.placeholders .toll_free').html() == ""){
+                  $.ajax({
+                      url: "{{ request.META.HTTP_NAME }}/client/getTollFree/{{ data.data.clients.client_id}}",
+                      data:{'type':'dropdown'},
+                      success: function( data ) {
+                        $('.placeholders .toll_free').html(data);
+                        ref.find('select[name="client_toll_free_id"]').html(data);
+                      }
+                  })
+                } else 
+                  ref.find('select[name="client_toll_free_id"]').html($('.placeholders .toll_free').html());
+
+            }
+        }) 
+    }
+</script>

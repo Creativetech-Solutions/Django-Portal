@@ -1,0 +1,521 @@
+{% extends "portal/base.html" %}
+{% block content %}
+
+<style>
+  .inlcude-wholesale .fa-square{    color: #f0f0f0;
+    border: 1px solid black;
+    border-bottom: 1.5px solid black;
+    border-radius: 2px;
+    font-size: 9px;
+    position: relative;
+    bottom: 2px;
+    left: 1px;
+    width: 11px;
+    margin-right: 2px;
+  }
+</style>
+
+<div class="row">
+
+    <div class="col-xs-12 user-basic-info ">
+        <div class="col-xs-12">
+            <div class="">
+                <strong>Basic Customer Information</strong>
+            </div>
+            <div class="client-info-wrapper">
+                {% include "portal/components/client_info.html" %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 user-detail">
+        <div class="col-xs-12 col-sm-12">
+
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item"><a class="active show" data-toggle="tab" href="#invoices">Invoices</a></li>
+            {% if user_data.userType == "White Label Partner" %}
+                <li class="nav-item"><a data-toggle="tab" href="#wl_invoices">WL Invoices</a></li>
+            {% endif %}
+            <li class="nav-item"><a data-toggle="tab" href="#pricing">Pricing</a></li>
+            <li class="nav-item"><a data-toggle="tab" href="#call">Calls</a></li>
+          </ul>
+
+          <div class="tab-content">
+            <div id="invoices" class="tab-pane show active">
+                <table class="table " id="invoicesTable" style="width:100%"></table>
+            </div>
+            {% if user_data.userType == "White Label Partner" %}
+            <div id="wl_invoices" class="tab-pane">
+                <table class="table " id="wl_invoicesTable" style="width:100%"></table>
+            </div>
+            {% endif %}
+            <div id="pricing" class="tab-pane">
+                <table class="table " id="pricingTable" style="width:100%"></table>
+            </div>
+            <div id="call" class="tab-pane">
+                <table class="table table-striped" id="Call_Listing" style="width:100%">
+                  <tbody>
+                      <tr>
+                          <td>
+                              <div id="Sub_tab" style="font-size:14px">
+                                  <ul class="nav nav-tabs" id="SubTab">
+                                      <li class="active"><a href="#PhoneCalls" data-toggle="tab" aria-expanded="false">Phone Calls</a></li>
+
+                                      <li class=""><a href="#TollFree" data-toggle="tab" onclick="" aria-expanded="true">Toll Free Calls</a></li>
+                                  </ul>
+                                  <div class="tab-content" id="TableContent">
+                                      <div id="PhoneCalls" class="tab-pane active">
+                                                  <table id="ListPhoneCalls" class="table" style="width: 100%;">
+                                                  </table>
+                                      </div>
+
+                                      <div id="TollFree" class="tab-pane">
+                                                  <table id="TollfreeTable" class="table" style="width: 100%;">
+                                                  </table>
+                                      </div>
+                                  </div>
+                                  <!-- TableContent end here -->
+                              </div>
+                              <!-- Sub_tab end -->
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+      getAllInvoices();
+      getAllPricing();
+      getPhoneCalls();
+      getTollFreeCalls();
+    })
+
+    function getAllInvoices(){
+          jQuery('#invoicesTable').dataTable({
+                "ajax": "{{ request.META.HTTP_NAME }}/api/getClientInvoices/{{ data.data.clients.client_id}}",
+                "pageLength": 10,
+                "bDestroy": true,responsive: true,
+                language: { search: "",searchPlaceholder: "Search" },
+                aoColumns: [
+                    {
+                        mData: 'invoice_number'
+                    },
+                    {
+                        mData: 'invoice_date'
+                    },
+                    {
+                        mData: 'invoice_net_amount'
+                    },
+                    {
+                        mData: 'invoice_gst_amount'
+                    },
+                    {
+                        mData: 'invoice_gross_amount'
+                    }
+                ],
+
+                "columnDefs": [
+
+                    {
+                        "title": "Invoice No.",
+                        "targets": 0
+                    },
+
+                    {
+                        "title": "Date",
+                        "targets": 1
+                    },
+
+                    {
+                        "title": "Net Amt",
+                        "targets": 2
+                    },
+
+                    {
+                        "title": "Gst Amt",
+                        "targets": 3
+                    },
+
+                    {
+                        "title": "Gross Amt",
+                        "targets": 4
+                    }
+
+                ],
+            });
+    }
+
+    {% if user_data.userType == "White Label Partner" %}
+      getAllWLInvoices();
+      function getAllWLInvoices(){
+            jQuery('#wl_invoicesTable').dataTable({
+                  "ajax": "{{ request.META.HTTP_NAME }}/api/getClientWLInvoices/{{ data.data.clients.client_id}}",
+                  "pageLength": 10,
+                  "bDestroy": true,responsive: true,
+                  language: { search: "",searchPlaceholder: "Search" },
+                  aoColumns: [
+                      {
+                          mData: 'invoice_number'
+                      },
+                      {
+                          mData: 'invoice_date'
+                      },
+                      {
+                          mData: 'invoice_net_amount'
+                      },
+                      {
+                          mData: 'invoice_gst_amount'
+                      },
+                      {
+                          mData: 'invoice_gross_amount'
+                      }
+                  ],
+
+                  "columnDefs": [
+
+                      {
+                          "title": "Invoice No.",
+                          "targets": 0
+                      },
+
+                      {
+                          "title": "Date",
+                          "targets": 1
+                      },
+
+                      {
+                          "title": "Net Amt",
+                          "targets": 2
+                      },
+
+                      {
+                          "title": "Gst Amt",
+                          "targets": 3
+                      },
+
+                      {
+                          "title": "Gross Amt",
+                          "targets": 4
+                      }
+
+                  ],
+              });
+      }
+    {% endif %}
+
+    function getAllPricing(){
+        jQuery('#pricingTable').dataTable({
+            "ajax": "{{ request.META.HTTP_NAME }}/api/getClientPricing/{{ data.data.clients.client_id}}",
+            "pageLength": 10,
+            "bDestroy": true,responsive: true,
+            language: { search: "",searchPlaceholder: "Search" },
+            aoColumns: [
+                {
+                    mData: 'client_id'
+                },
+                {
+                    mData: 'client_name',
+                    render: function ( data, type, row, meta ) {
+                        return data.substr(data.indexOf("(")+1, (data.indexOf(')')-data.indexOf("(")-1));
+                    }
+                },
+                {
+                    mData: 'sip',
+                    render:function(data, type, row, meta){
+                        return '$'+data;
+                    }
+                },
+                {
+                    mData: 'ddi',
+                    render:function(data, type, row, meta){
+                        return '$'+data;
+                    }
+                },
+                {
+                    mData: 'device',
+                    render:function(data, type, row, meta){
+                        return '$'+data;
+                    }
+                },
+                {
+                    mData: 'ext',
+                    render:function(data, type, row, meta){
+                        return '$'+data;
+                    }
+                },
+                {
+                    mData: 'intz1',
+                    render:function(data, type, row, meta){
+                        return '$'+data;
+                    }
+                },
+                {
+                    mData: 'wl_pricing_id',
+                    render:function(data, type, row, meta){
+                        return '<a href="{{ request.META.HTTP_NAME }}/pricingDetail/'+data+'" class="btn btn-xs btn-warning price-detail">View Detail</a>'
+                    }
+                }
+            ],
+
+            "columnDefs": [
+                {
+                    "title": "Client Id",
+                    "targets": 0
+                },
+
+                {
+                    "title": "Name",
+                    "targets": 1
+                },
+
+                {
+                    "title": "SIP Trunks",
+                    "targets": 2
+                },
+
+                {
+                    "title": "DDI's",
+                    "targets": 3
+                },
+
+                {
+                    "title": "Device",
+                    "targets": 4
+                },
+                {
+                    "title": "PBX Extensions",
+                    "targets":5
+                },
+
+                {
+                    "title": "Int Zone 1",
+                    "targets": 6
+                },
+
+                {
+                    "title": "Other",
+                    "targets": 7
+                }
+
+            ],
+        });
+    }
+
+    var $table = "";
+    function getPhoneCalls(){
+
+         $table = jQuery('#ListPhoneCalls').dataTable({
+            "ajax": "{{ request.META.HTTP_NAME }}/api/getPhoneCalls/{{ data.data.clients.client_id}}",
+            "pageLength": 10,
+            "bDestroy": true,
+            language: { search: "",searchPlaceholder: "Search" },
+            aoColumns: [
+                {
+                    mData: 'Originating'
+                },
+                {
+                    mData: 'Destination'
+                },
+                {
+                    mData: 'DateTime'
+                },
+                {
+                    mData: 'Duration'
+                },
+                {
+                    mData: 'Country'
+                },
+                {
+                    mData: 'Area'
+                },
+                {
+                    mData: 'Cost'
+                },
+                {
+                    mData: 'Retail'
+                }
+            ],
+            "columnDefs": [
+                {
+                    "title": "Originating",
+                    "targets": 0
+                },
+                {
+                    "title": "Destination",
+                    "targets": 1
+                },
+                {
+                    "title": "DateTime",
+                    "targets": 2
+                },
+                {
+                    "title": "Duration",
+                    "targets": 3
+                },
+                {
+                    "title": "Country",
+                    "targets": 4
+                },
+                {
+                    "title": "Area",
+                    "targets": 5
+                },
+                {
+                    "className": "export noExport",
+                    "title": "Cost",
+                    "targets": 6
+                },
+                {
+                    "title": "Retail",
+                    "targets": 7
+                }
+            ],
+           "sDom": 'lfBrtip',
+            buttons: [
+                {
+                    extend: 'csv',
+                    text: 'Download Calls (CSV)',
+                    exportOptions: {
+                        columns: "thead th:not(.noExport)"
+                    }
+                },
+                {
+                  text: 'Include Wholesale Cost <span class="inlcude-wholesale"><i style="color: white;" class="fa fa-square"></i></span>',
+                  action: function ( e, dt, node, config ) {
+                    if($('.inlcude-wholesale').hasClass('yes')){
+                      $('.inlcude-wholesale').removeClass('yes');
+                      $('.inlcude-wholesale').html('<i style="color: white;" class="fa fa-square"></i>');
+                      $('.export').addClass('noExport');
+                    }
+                    else {
+                      $('.inlcude-wholesale').addClass('yes');
+                      $('.inlcude-wholesale').html('<i class="fa fa-check-square-o"></i>');
+                      $('.export').removeClass('noExport');
+                    }
+                  }
+                }
+            ]
+        });
+    }
+
+   // <input type="checkbox" style="margin:0" class="inlcude-wholesale" name="incl-ws" value="1">
+   /* if($('.inlcude-wholesale').is(':checked')){
+                      $('.inlcude-wholesale').prop('checked', false);
+                      $('.export').addClass('noExport');
+                    }
+                    else {
+                      $('.inlcude-wholesale').prop('checked', true);
+                      $('.export').removeClass('noExport');
+                    }*/
+    function getTollFreeCalls(){
+        jQuery('#TollfreeTable').dataTable({
+            "ajax": "{{ request.META.HTTP_NAME }}/api/getTollFreeCalls/{{ data.data.clients.client_id}}",
+            "pageLength": 10,
+            "bDestroy": true,responsive: true,
+            language: { search: "",searchPlaceholder: "Search" },
+            aoColumns: [
+                {
+                    mData: 'Caller'
+                },
+                {
+                    mData: 'Destination'
+                },
+                {
+                    mData: 'DateTime'
+                },
+                {
+                    mData: 'Duration'
+                },
+                {
+                    mData: 'Country'
+                },
+                {
+                    mData: 'Area'
+                },
+                {
+                    mData: 'Cost'
+                },
+                {
+                    mData: 'Retail'
+                }
+            ],
+
+            "columnDefs": [
+
+                {
+                    "title": "Originating",
+                    "targets": 0
+                },
+
+                {
+                    "title": "Destination",
+                    "targets": 1
+                },
+
+                {
+                    "title": "DateTime",
+                    "targets": 2
+                },
+
+                {
+                    "className": "text_right pad-rt",
+                    "title": "Duration ",
+                    "targets": 3
+                },
+
+                {
+                    "className": "count-col",
+                    "title": "Country",
+                    "targets": 4
+                },
+
+                {
+                    "title": "Area",
+                    "targets": 5
+                },
+                {
+                    "className": "export-t noExport",
+                    "title": "Cost",
+                    "targets": 6 
+                },
+                {
+                    "title": "Retail",
+                    "targets": 7
+                }
+
+            ],
+           "sDom": 'lfBrtip',
+            buttons: [
+                 {
+                    extend: 'excel',
+                    text: 'Download Calls (CSV)',
+                    exportOptions: {
+                        columns: "thead th:not(.noExport)"
+                    }
+                },
+                {
+                  text: 'Include Wholesale Cost <input type="checkbox" style="margin:0" class="inlcude-wholesale-t" name="incl-ws" value="1">',
+                  action: function ( e, dt, node, config ) {
+                    if($('.inlcude-wholesale-t').is(':checked')){
+                      $('.inlcude-wholesale-t').prop('checked', false);
+                      $('.export-t').addClass('noExport');
+                    }
+                    else {
+                      $('.inlcude-wholesale-t').prop('checked', true);
+                      $('.export-t').removeClass('noExport');
+                    }
+                  }
+                }
+            ]
+        });
+    }
+</script>
+
+{% endblock %}
+

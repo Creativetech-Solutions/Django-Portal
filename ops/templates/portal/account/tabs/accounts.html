@@ -1,0 +1,74 @@
+<style>
+	.sect-title{ background-color: #a53e0d; color: white;}
+	.sect-body{background-color: #fdfdfd;}
+	.sect-body:not(.center){padding:0px 40px}
+	#home table td,#home table th { padding: 5px}
+	.sect-body:not(.right) table {border-collapse: collapse; }
+	.sect-body:not(.right) table td, .sect-body:not(.right) table th {border: 1px solid black; }
+	.sect-body:not(.right) table tr:first-child th {border-top: 0; }
+	.sect-body:not(.right) table tr:last-child td {border-bottom: 0; }
+	.sect-body:not(.right) table tr td:first-child, .sect-body:not(.right) table tr th:first-child {border-left: 0; }
+	.sect-body:not(.right) table tr td:last-child, .sect-body:not(.right) table tr th:last-child {border-right: 0; }
+	.acc-invoice table tr td:first-child{font-weight: bold }
+	.sect-body.center {background-color:#f1f1f1;}
+	.sect-body.center tbody{height: 200px; overflow-y: scroll;display: inline-block}
+	.sect-body.center th:first-child, .sect-body.center td:first-child{width:26%;}
+	.sect-body.center th:nth-child(2),.sect-body.center td:nth-child(2){width:44%;}
+	.sect-body.center th:nth-child(3),.sect-body.center td:nth-child(3){width:30%;}
+	.spacer{border: 0; border-top: 1px solid #5a5a5b;margin: 0px 0 7px;}
+	.paymentsTable .row, .creditTable .row{padding: 5px 0;}
+	.payments-list{max-height: 150px; overflow-y: scroll;}
+	.credits-list{max-height: 180px; overflow-y: scroll;}
+	.payments-list .row div , .credits-list .row div{padding: 0}
+	.payments-list .row, .credits-list .row{border-bottom: 1px solid #e0e0e0; }
+	.acc-summary tbody tr td:nth-child(2) {text-align: right}
+</style>
+<div class="row" style="padding:12px;background-color:white">
+	<div class="col-xs-12 col-sm-12 col-md-4 pad-0">
+		<div class="sect-title text-center col-xs-12"><h4>Last Months Services Invoice</h4></div>
+		<div class="sect-body left col-xs-12 acc-invoice"></div>
+	</div>
+	<div class="col-xs-12 col-sm-12 col-md-4 pad-0 acc-center-wrap">
+		<div class="sect-title text-center col-xs-12"><h4>Payments</h4></div>
+		<div class="sect-body center right col-xs-12 acc-payments"></div>
+	</div>
+	<div class="col-xs-12 col-sm-12 col-md-4 pad-0">
+		<div class="sect-title text-center col-xs-12 pad-0"><h4>Account Summary</h4></div>
+		<div class="sect-body right col-xs-12 acc-summary">
+		</div>
+	</div>
+</div>
+
+<script>
+	// get last invoice
+	 $.ajax({
+      url: "{{request.META.HTTP_NAME }}/getInvoices/{{data.data.clients.client_id}}",
+      success: function( data ) {
+      		$('.acc-invoice').html(data);
+      		$('.client_id').html('{{data.data.clients.client_id}}');
+        }
+    }) 
+	// get client payments
+	$.ajax({
+      url: "{{request.META.HTTP_NAME }}/client/getPayments/{{data.data.clients.client_id}}",
+      success: function( data ) {
+      		$('.acc-payments').html(data);
+        }
+    }) 
+	// get client account summary
+	$.ajax({
+      url: "{{request.META.HTTP_NAME }}/client/getAccountSummary/{{data.data.clients.client_id}}",
+      success: function( data ) {
+      		$('.acc-summary').html(data);
+        }
+    }) 
+	// get client credits
+	$.ajax({
+      url: "{{request.META.HTTP_NAME }}/client/getCredits/{{data.data.clients.client_id}}",
+      success: function( data ) {
+      		$('.acc-center-wrap').append(data);
+        }
+    }) 
+
+    
+</script>

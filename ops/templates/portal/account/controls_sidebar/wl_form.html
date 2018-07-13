@@ -1,0 +1,108 @@
+{% load define_action %}
+<div class="col-xs-12 col-sm-12 col-md-12">
+    <input type="hidden" class="form-control" placeholder="" value="{{white_label.wl_client_id|noneCheck}}" name="wl_client_id">
+	<div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="form-group col-xs-12">
+            <strong class="col-xs-5">WL Client Id:</strong>
+            <span class="col-xs-7">{{white_label.wl_client_id|noneCheck}}</span>
+        </div>
+        <div class="form-group col-xs-12">
+            <strong class="col-xs-5">Partner Id:</strong>
+            <span class="col-xs-7">{{white_label.agent_customer_id|noneCheck}}</span>
+        </div>
+        <div class="form-group col-xs-12">
+            <strong class="col-xs-5">Customer:</strong>
+            <span class="col-xs-7">{{white_label.client_name|noneCheck}}</span>
+        </div>
+        <div class="form-group col-xs-12">
+            <strong class="col-xs-5">Trading As:</strong>
+            <span class="col-xs-7">{{white_label.trading_as|noneCheck}}</span>
+        </div>
+        <div class="form-group col-xs-12">
+            <strong class="col-xs-5">Account Contact:</strong>
+            <span class="col-xs-7 wl_agent_id" data-id="{{white_label.agent_id|noneCheck}}"></span>
+        </div>
+    </div>
+	<div class="col-xs-12 col-sm-6 col-md-3">
+        <div class="form-group col-xs-12">
+            <strong class="col-xs-5">Accounts Email :</strong>
+            <span class="col-xs-7 ">{{white_label.client_email|noneCheck}}</span>
+        </div>
+        <div class="form-group col-xs-12">
+            <strong class="col-xs-5">Phones:</strong>
+            <span class="col-xs-7">{{white_label.client_phone_number|noneCheck}}</span>
+        </div>
+        <div class="form-group col-xs-12">
+            <strong class="col-xs-5">Fax:</strong>
+            <span class="col-xs-7">{{white_label.client_fax_number|noneCheck}}</span>
+        </div>
+        <div class="form-group col-xs-12">
+            <strong class="col-xs-5">Client Type:</strong>
+            <span class="col-xs-7">{{white_label.client_type|noneCheck}}</span>
+        </div>
+    </div>
+	<div class="col-xs-12 col-sm-6 col-md-2">
+		<div class="col-xs-12"><strong>Postal Address</strong></div>
+        <div class="form-group col-xs-12">
+        	<span>{{white_label.postal_address_1|noneCheck}}</span>
+        </div>
+        <div class="form-group col-xs-12">
+        	<span>{{white_label.clients.postal_address_2|noneCheck}}</span>
+        </div>
+        <div class="form-group col-xs-12">
+        	<span>{{white_label.clients.postal_address_3|noneCheck}}</span>
+        </div>
+		<div class="col-xs-12"><strong>Physical Address</strong></div>
+        <div class="form-group col-xs-12">
+        	<span>{{white_label.physical_address_1|noneCheck}}</span>
+        </div>
+        <div class="form-group col-xs-12">
+        	<span>{{white_label.physical_address_2|noneCheck}}</span>
+        </div>
+        <div class="form-group col-xs-12">
+        	<span>{{white_label.area|noneCheck}}</span>
+        </div>
+    </div>
+	<div class="col-xs-12 col-sm-12 col-md-3">
+
+        <div class="form-group col-xs-12">
+            <strong class="col-xs-5">Email:</strong>
+            <span class="col-xs-7">
+	            {% if white_label.invoice_to_email == True %}
+	            <i class="fa fa-check-square"></i>
+	            {% else %}
+	            <i class="fa fa-square"></i>
+	            {% endif %}
+            </span>
+        </div>
+        <div class="form-group col-xs-12">
+            <strong class="col-xs-5 ">Print:</strong>
+            <span class="col-xs-7">
+	            {% if white_label.invoice_to_print == True %}
+	            <i class="fa fa-check-square"></i>
+	            {% else %}
+	            <i class="fa fa-square"></i>
+	            {% endif %}
+            </span>
+        </div>
+        <div class="form-group col-xs-12">
+            <strong class="col-xs-5 ">GST:</strong>
+            <span class="col-xs-7">
+	            {% if white_label.charge_client_gst_flag == True %}
+	            <i class="fa fa-check-square"></i>
+	            {% else %}
+	            <i class="fa fa-square"></i>
+	            {% endif %}
+            </span>
+        </div>
+        <div class="form-group col-xs-12">
+            <strong class="col-xs-5">Payment Option:</strong>
+            <span class="col-xs-7 wl_payment_opt" data-id="{{white_label.payment_option|noneCheck}}"></span>
+        </div>
+    </div>
+	<div class="form-group col-xs-12 col-sm-12 col-md-8">
+        <strong class="col-xs-2">Notes:</strong>
+        <span class="col-xs-10">{{white_label.notes|empty_dashes}}</span>
+	</div>
+    <div class="col-xs-12 col-sm-12 col-md-4"><a class="btn btn-primary enable-wl pull-right">Enable/Edit Wl</a></div>
+</div>
