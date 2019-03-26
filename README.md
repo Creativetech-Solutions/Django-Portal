@@ -18,9 +18,13 @@ As prerequisites you must have installed python 3.6 and a package to create virt
 
 ### Installing
 Git clone the repositry or download the zip file. 
+
 Go into the project folder and create virtual enviornment - pipenv shell
+
 Outside shell, inside project folder ,install all required packages and add them to pip file - pipenv install <pkg name>
+  
 Finally, launch shell - pipenv shell
+
 Run django server - python manage.py runserver 
 
 ## Built With
